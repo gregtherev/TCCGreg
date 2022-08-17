@@ -1,6 +1,19 @@
 {% extends 'base.html' %}
 
 
+
+{% block mobile %}
+    <h1 class="ui red header">Teste mobile</h1>
+{% endblock mobile %}
+
 {% block desktop %}
     <h1 class="ui green header">Apenas um teste para verificar o semantic</h1>
+    <i class="file alternate outline huge blue icon"></i>
+    <div class="ui grid">
+        <div class="three columns row">
+            <div class="column"><div class="ui segment">teste</div></div>
+            <div class="column"><div class="ui segment">teste</div></div>
+            <div class="column"><div class="ui segment">teste</div></div>
+        </div>
+    </div>
 {% endblock desktop %}
