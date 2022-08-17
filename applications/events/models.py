@@ -1,3 +1,16 @@
 from django.db import models
 
-# Create your models here.
+class Events(models.Model):
+    name = models.CharField(max_length=255, null=False)
+    date = models.DateField(null=False)
+    type = models.TextChoices('Envio automático', 'Validação de juíz')
+    punishment_value = models.IntegerField(\
+        verbose_name='Valor em minutos de cada punição acumulada',
+        default=20)
+
+
+class Questions(models.Model):
+    question_text = models.CharField()
+    image_path = models.CharField(null=False)
+    correct_ansnwer = models.CharField(max_length=1, null=False)
+
