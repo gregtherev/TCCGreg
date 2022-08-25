@@ -9,8 +9,3 @@ class Teams(models.Model):
 
 class Judges(models.Model):
     name = models.CharField()
-
-
-class Admin(models.Model):
-    login = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)

@@ -14,3 +14,7 @@ class Questions(models.Model):
     image_path = models.CharField(null=False)
     correct_ansnwer = models.CharField(max_length=1, null=False)
 
+
+class Institutions(models.Model):
+    name = models.CharField(max_length=255)
+    city = models.CharField(max_length=50)
