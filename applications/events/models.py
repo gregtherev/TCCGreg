@@ -18,3 +18,14 @@ class Questions(models.Model):
 class Institutions(models.Model):
     name = models.CharField(max_length=255)
     city = models.CharField(max_length=50)
+
+
+class Submissions(models.Model):
+    question = models.CharField()
+    asnwer = models.CharField()
+    time = models.TimeField()
+    status = models.TextChoices('Correto', 'Incorreto')
+    #event, team foreign keys
+
+
+
