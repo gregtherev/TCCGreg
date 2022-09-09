@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Profile
+from .forms import ProfileCreationForm
+
+class ProfileCreation(admin.ModelAdmin):
+    form = ProfileCreationForm
+
+
+admin.site.register(Profile, ProfileCreation)

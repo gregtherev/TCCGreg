@@ -1,6 +1,7 @@
+from unicodedata import name
 from django.db import models
 
-class Events(models.Model):
+class Event(models.Model):
     name = models.CharField(max_length=255, null=False)
     date = models.DateField(null=False)
     type = models.TextChoices('Envio automático', 'Validação de juíz')
@@ -8,24 +9,31 @@ class Events(models.Model):
         verbose_name='Valor em minutos de cada punição acumulada',
         default=20)
 
+    def __str__(self):
+        return self.name
 
-class Questions(models.Model):
-    question_text = models.CharField()
-    image_path = models.CharField(null=False)
+
+class Question(models.Model):
+    question = models.TextField('Questão')
+    # image = models.ImageField('Upload de imagem', upload_to=None, height_field=None, width_field=None, max_length=None)
     correct_ansnwer = models.CharField(max_length=1, null=False)
 
+    def __str__(self):
+        return f'Questão {self.id}'
 
-class Institutions(models.Model):
+
+class Institution(models.Model):
     name = models.CharField(max_length=255)
     city = models.CharField(max_length=50)
 
+    def __str__(self):
+        return name
 
-class Submissions(models.Model):
-    question = models.CharField()
-    asnwer = models.CharField()
+
+class Submission(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    answer = models.CharField(max_length=2)
     time = models.TimeField()
     status = models.TextChoices('Correto', 'Incorreto')
     #event, team foreign keys
-
-
-
+    # event = models.ForeignKey(OTHERMODEL, on_delete=models.CASCADE)
