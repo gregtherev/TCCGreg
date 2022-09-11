@@ -1,9 +1,15 @@
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Profile
+from .models import Judge, Team
 
 
-class ProfileCreationForm(UserCreationForm):
+class TeamCreationForm(UserCreationForm):
     class Meta:
-        model = Profile
-        fields = ['name', 'username', 'user_type']
+        model = Team
+        fields = "__all__"
+
+
+class JudgeCreationForm(UserCreationForm):
+    class Meta:
+        model = Judge
+        fields = "__all__"

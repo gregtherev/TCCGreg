@@ -40,9 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # third part apps
     # local apps
-    'applications.accounts',
     'applications.events',
+    'applications.accounts',
     'applications.leaderboard',
+    'applications.students',
 ]
 
 MIDDLEWARE = [

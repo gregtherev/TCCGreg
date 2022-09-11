@@ -162,3 +162,5 @@ cython_debug/
 
 # Mac and Apple tmp files/dirs
 .DS_Store
+
+settings.json
