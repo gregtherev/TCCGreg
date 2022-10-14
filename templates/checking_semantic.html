@@ -7,13 +7,110 @@
 {% endblock mobile %}
 
 {% block desktop %}
-    <h1 class="ui green header">Apenas um teste para verificar o semantic</h1>
-    <i class="file alternate outline huge blue icon"></i>
     <div class="ui grid">
-        <div class="three columns row">
-            <div class="column"><div class="ui segment">teste</div></div>
-            <div class="column"><div class="ui segment">teste</div></div>
-            <div class="column"><div class="ui segment">teste</div></div>
+        <div class="row" id="desktop-header">
+            <div class="ten wide column">
+                <div class="ui segment">
+                    <div class="ui grid">
+                        <div class="row">
+
+                            <!-- head -->
+                            <div class="ten wide column">
+                                <h1 class="ui green header">
+                                    Nome do evento
+                                    <br>
+                                    <small>Instituição</small>
+                                </h1>
+                            </div>
+
+                            <!-- logo -->
+                            <div class="six wide column">
+                                <div class="ui right aligned basic segment">
+                                    <i class="coffee green huge icon"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="six wide column">
+                <div class="ui two columns grid">
+                    <div class="column">
+                        <div class="ui center aligned segment">
+                            <h1 class="ui grey header">13/10/2022</h1>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="ui center aligned segment">
+                            <h1 class="ui grey header">00:00:00</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui row" id="desktop-content">
+            <div class="column">
+                <div class="ui segment">
+                    <h1 class="ui grey header">Placar do evento</h1>
+
+                    <table class="ui basic table">
+                        <thead>
+                            <tr>
+                                <th>Equipe</th>
+                                <th>
+                                    Questões
+                                </th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <!-- numbers -->
+                                    <div class="ui small icon fluid basic buttons questions">
+                                        <div class="ui button">X</div>
+                                        <div class="ui button">X</div>
+                                        <div class="ui button">X</div>
+                                        <div class="ui button">X</div>
+                                        <div class="ui button">X</div>
+                                        <div class="ui button">X</div>
+                                        <div class="ui button">X</div>
+                                        <div class="ui button">X</div>
+                                        <div class="ui button">X</div>
+                                        <div class="ui button">X</div>
+                                    </div>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="collapsing">Equipe do Greg</td>
+                                <td>
+                                    <!-- question bodies -->
+                                    <div class="ui small icon fluid buttons">
+                                        <div class="ui green button"><i class="check circle large icon"></i></div>
+                                        <div class="ui red button"><i class="exclamation circle large icon"></i></div>
+                                        <div class="ui orange button"><i class="check circle large icon"></i></div>
+                                        <div class="ui button"><i class="dot circle outline large icon"></i></div>
+                                        <div class="ui button"><i class="dot circle outline large icon"></i></div>
+                                        <div class="ui button"><i class="dot circle outline large icon"></i></div>
+                                        <div class="ui button"><i class="dot circle outline large icon"></i></div>
+                                        <div class="ui button"><i class="dot circle outline large icon"></i></div>
+                                        <div class="ui button"><i class="dot circle outline large icon"></i></div>
+                                        <div class="ui button"><i class="dot circle outline large icon"></i></div>
+                                    </div>
+                                </td>
+                                <td class="collapsing">20h35s</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
         </div>
     </div>
 {% endblock desktop %}

@@ -13,7 +13,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # semantic-ui testing
-    path('semantic_testing/',
+    path('ranking/',
          TemplateView.as_view(template_name='checking_semantic.html'),
          name='semantic_testing'),
 ]
