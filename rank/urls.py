@@ -16,4 +16,8 @@ urlpatterns = [
     path('ranking/',
          TemplateView.as_view(template_name='checking_semantic.html'),
          name='semantic_testing'),
+
+    path('login/',
+         TemplateView.as_view(template_name='login.html'),
+         name='semantic_login'),
 ]
