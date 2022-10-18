@@ -13,3 +13,7 @@ body {
 .questions {
     margin-top: -20px !important;
 }
+
+.login_top_distance {
+    padding-top: 15% !important;
+}
