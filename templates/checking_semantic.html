@@ -43,8 +43,33 @@
                         </div>
                     </div>
                     <div class="column">
-                        <div class="ui center aligned segment">
-                            <h1 class="ui grey header">00:00:00</h1>
+                        <div class="ui center aligned segment" id="clock">
+                            <h1 class="ui grey header">[[ time ]]</h1>
+
+                            <script>
+                                let clock = new Vue({
+                                    delimiters: ['[[', ']]'],
+                                    el: '#clock',
+                                    data() {
+                                        return {
+                                            time: 0,
+                                            interval: null
+                                        }
+                                    },
+                                    methods: {
+                                        start() {
+                                            this.interval = setInterval(() => {
+                                                this.time += 1
+                                            }, 1000)
+                                        },
+                                        stop() {
+                                            clearInterval(this.interval)
+                                        }
+                                    },
+                                    mounted() { this.start() },
+                                    beforeDestroy() { this.stop() }
+                                })
+                            </script>
                         </div>
                     </div>
                 </div>
