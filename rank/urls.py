@@ -7,6 +7,7 @@ from django.contrib import admin
 from django.urls import path
 
 from rank.base_views import test_page_for_templates
+from rank.api import api
 
 from applications.accounts.views import login_view, logout_view
 
@@ -18,4 +19,6 @@ urlpatterns = [
 
     path('', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
+
+    path('api/', api.urls),
 ]
