@@ -17,3 +17,11 @@ body {
 .login_top_distance {
     padding-top: 15% !important;
 }
+
+.header_menu {
+    background-color: #F2F2F2 !important;
+}
+
+.item {
+    color: black !important;
+}
