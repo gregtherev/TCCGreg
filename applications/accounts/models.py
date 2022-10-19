@@ -11,8 +11,14 @@ class Team(User):
     relative_time = models.TimeField("Tempo relativo", null=True, blank=True)
     penalties = models.IntegerField(
         "Quantidade de penalidades", null=True, blank=True)
+    rt_questions = models.CharField('Questões acertadas', null=True, 
+                                    max_length=255)
+    wr_questions = models.CharField('Questões erradas', null=True,
+                                    max_length=255)
+    rc_questions = models.CharField('Questões recuperadas', null=True,
+                                    max_length=255)
     # TODO adicionar atributo para subir o logo da equipe
-    # event = models.ForeignKey('applications.events', on_delete=models.CASCADE) ## NOQA
+    # event = models.ForeignKey('applications.events', on_delete=models.CASCADE) ## NOQA ## RESOLVER O IMPORT CIRCULAR DESSA MERDA
     students = models.ManyToManyField(Student)
 
     def __str__(self):
