@@ -11,7 +11,7 @@ class Team(User):
     relative_time = models.TimeField("Tempo relativo", null=True, blank=True)
     penalties = models.IntegerField(
         "Quantidade de penalidades", null=True, blank=True)
-    rt_questions = models.CharField('Questões acertadas', null=True, 
+    rt_questions = models.CharField('Questões acertadas', null=True,
                                     max_length=255)
     wr_questions = models.CharField('Questões erradas', null=True,
                                     max_length=255)
@@ -26,6 +26,7 @@ class Team(User):
 
     class Meta:
         verbose_name = 'Equipe'
+
         verbose_name_plural = 'Equipes'
 
 
