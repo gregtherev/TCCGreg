@@ -14,7 +14,7 @@ def hello(request):
 
 @router.get("/leaderboard-teams/{event_id}")
 def leaderboard_teams(request, event_id: int):
-    teams = Team.objects.get(event__id=event_id)
+    teams = Team.objects.filter(event__id=event_id)
     event = Team.event
     teams_list = []
     team_dict = {}

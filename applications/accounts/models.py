@@ -18,7 +18,7 @@ class Team(User):
     rc_questions = models.CharField('Questões recuperadas', null=True,
                                     max_length=255)
     # TODO adicionar atributo para subir o logo da equipe
-    # event = models.ForeignKey('applications.events', on_delete=models.CASCADE) ## NOQA ## RESOLVER O IMPORT CIRCULAR DESSA MERDA
+    event = models.ForeignKey('events.Event', on_delete=models.CASCADE)
     students = models.ManyToManyField(Student)
 
     def __str__(self):
