@@ -1,12 +1,10 @@
-from pydantic import BaseModel
+from .models import Team
+from ninja import ModelSchema
 
 
-class TeamInfo(BaseModel):
-    name: str
-    solved_questions: int
-    relative_time: int
-    penalties: int
-    rt_questions: str
-    wr_questions: str
-    rc_questions: str
-    formated_time: int
+class TeamSchema(ModelSchema):
+    class Config:
+        model = Team
+        model_fields = ['name', 'solved_questions', 'relative_time',
+                        'penalties', 'formated_time', 'rt_questions',
+                        'wr_questions', 'rc_questions']

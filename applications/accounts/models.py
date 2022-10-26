@@ -8,9 +8,11 @@ class Team(User):
     solved_questions = models.IntegerField("Questões resolvidas",
                                            default=0,
                                            blank=True)
-    relative_time = models.TimeField("Tempo relativo", null=True, blank=True)
-    penalties = models.IntegerField(
-        "Quantidade de penalidades", null=True, blank=True)
+    relative_time = models.PositiveIntegerField("Tempo relativo", null=True)
+    penalties = models.PositiveIntegerField(
+        "Quantidade de penalidades", null=True)
+    formated_time = models.PositiveIntegerField(
+        "Tempo relativo + penalidades", null=True)
     rt_questions = models.CharField('Questões acertadas', null=True,
                                     max_length=255)
     wr_questions = models.CharField('Questões erradas', null=True,
