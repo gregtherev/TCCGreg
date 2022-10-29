@@ -12,14 +12,16 @@
             <div class="ten wide column">
                 <div class="ui segment">
                     <div class="ui grid">
-                        <div class="row">
+
+                        <!-- head -->
+                        <div class="row" id="header">
 
                             <!-- head -->
                             <div class="ten wide column">
                                 <h1 class="ui green header">
-                                    Nome do evento
+                                    [[ title ]]
                                     <br>
-                                    <small>Instituição</small>
+                                    <small>[[ institution ]]</small>
                                 </h1>
                             </div>
 
@@ -31,6 +33,30 @@
                             </div>
 
                         </div>
+
+                        <script>
+                            let header = new Vue({
+                                el: '#header',
+                                delimiters: ['[[', ']]'],
+                                data: {
+                                    title: 'Nome do evento',
+                                    institution: 'Instituição'
+                                },
+                                methods: {
+                                    getEventData() {
+                                        // get the event data using axios
+                                        axios.get('/api/event/1/')
+                                            .then(response => {
+                                                this.title = response.data.title
+                                                this.institution = response.data.institution
+                                            })
+                                            .catch(error => { console.log(error) });
+                                    }
+                                },
+                            })
+                        </script>
+                        <!-- end head -->
+
                         <div class="row">
                             <div class="column">
                                 <div class="ui four item small inverted grey menu header_menu">
@@ -52,8 +78,8 @@
                             <h1 class="ui grey header">13/10/2022</h1>
                         </div>
                     </div>
-                    <div class="column">
-                        <div class="ui center aligned segment" id="clock">
+                    <div class="column" id="clock">
+                        <div class="ui center aligned segment">
                             <h1 class="ui grey header">[[ time ]]</h1>
 
                             <script>
@@ -63,11 +89,17 @@
                                     data() {
                                         return {
                                             time: 0,
-                                            interval: null
+                                            interval: null,
+                                            value: null
                                         }
                                     },
                                     methods: {
                                         start() {
+                                            axios
+                                                .get('/api/accounts/leaderboard-teams/1')
+                                                .then(response => {
+                                                    this.value = response.data;
+                                                })
                                             this.interval = setInterval(() => {
                                                 this.time += 1
                                             }, 1000)
@@ -86,8 +118,9 @@
             </div>
         </div>
 
+        <!-- teams -->
         <div class="ui row" id="desktop-content">
-            <div class="column">
+            <div class="column" id="ranking">
                 <div class="ui segment">
                     <h1 class="ui grey header">Placar do evento</h1>
 
@@ -95,9 +128,7 @@
                         <thead>
                             <tr>
                                 <th>Equipe</th>
-                                <th>
-                                    Questões
-                                </th>
+                                <th> Questões </th>
                                 <th>Total</th>
                             </tr>
                         </thead>
@@ -122,8 +153,8 @@
                                 </td>
                                 <td></td>
                             </tr>
-                            <tr>
-                                <td class="collapsing">Equipe do Greg</td>
+                            <tr v-for="team in teams">
+                                <td class="collapsing">[[ team.name ]]</td>
                                 <td>
                                     <!-- question bodies -->
                                     <div class="ui small icon fluid buttons">
@@ -139,13 +170,36 @@
                                         <div class="ui button"><i class="dot circle outline large icon"></i></div>
                                     </div>
                                 </td>
-                                <td class="collapsing">20h35s</td>
+                                <td class="collapsing">[[ team.formated_time ]]</td>
                             </tr>
                         </tbody>
                     </table>
+                    <script>
+                        let ranking = new Vue({
+                            el: '#ranking',
+                            delimiters: ['[[', ']]'],
+                            data() {
+                                return {
+                                    teams: []
+                                }
+                            },
+                            methods: {
+                                getTeams() {
+                                    axios.get('/api/accounts/leaderboard-teams/1')
+                                        .then(response => { this.teams = response.data })
+                                        .catch(error => { console.log(error) })
+                                }
+                            },
+                            mounted() { this.getTeams() }
+                        })
+                    </script>
 
                 </div>
             </div>
+
         </div>
+
+        <!-- end teams -->
+
     </div>
 {% endblock desktop %}
