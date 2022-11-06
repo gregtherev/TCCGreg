@@ -1,0 +1,33 @@
+<script>
+    Vue.component('rightheader', {
+        data() {
+            return {
+                date: '05/11/2022',
+                time: 0,
+                interval: null,
+            }
+        },
+        delimiters: ['[[', ']]'],
+        methods: {
+            start() {
+                this.interval = setInterval(() => {
+                    this.time += 1
+                }, 1000)
+            },
+            stop() { clearInterval(this.interval) },
+        },
+        mounted() { this.start() },
+        beforeDestroy() { this.stop() },
+        template: `
+        <div class="ui two column grid">
+            <div class="column">
+                <h1 class="ui grey header">[[ date ]]</h1>
+            </div>
+
+            <div class="column">
+                <h1 class="ui grey header">[[ time ]]</h1>
+            </div>
+        </div>
+        `
+    })
+</script>

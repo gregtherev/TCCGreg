@@ -1,0 +1,20 @@
+<script>
+    Vue.component('button_test', {
+        delimiters: ['[[', ']]'],
+        data() {
+            return {
+                count: 0
+            }
+        },
+        methods: {
+            increment() {
+                this.count += 1
+            }
+        },
+        template: `
+            <button class="ui small blue button" @click="increment">
+                [[ count ]]
+            </button>
+        `
+    })
+</script>

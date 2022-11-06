@@ -1,0 +1,24 @@
+{% include "./team_info.html" %}
+
+<script>
+    Vue.component('teams_position', {
+        data() { return {} },
+        delimiters: ['[[', ']]'],
+        methods: {},
+        template: `
+        <table class="ui table">
+            <thead>
+                <tr>
+                    <td>Equipe</td>
+                    <td>Questões</td>
+                    <td>Total</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                <team_info></team_info>
+            </tbody>
+        </table>
+        `
+    })
+</script>

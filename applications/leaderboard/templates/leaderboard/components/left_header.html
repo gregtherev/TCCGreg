@@ -1,0 +1,37 @@
+{% load static %}
+
+<script>
+Vue.component('leftheader', {
+    data() {
+        return {
+            event_name: '',
+            institution: '',
+            logo: null
+        }
+    },
+    delimiters: ['[[', ']]'],
+    methods: {},
+    template: `
+    <div class="ui grid" id="leaderboard_header">
+        <div class="row">
+            <div class="ten wide column">
+                <h1 class="ui grey header">
+                    [[ event_name ? event_name : "Evento padrão" ]]
+                    <br>
+                    <small>
+                        [[ institution ? institution : "UniAraras" ]]
+                    </small>
+                </h1>
+            </div>
+
+            <div class="six wide column">
+                <div class="ui right aligned basic segment">
+                    <img class="ui small right floated image"
+                        :src="logo ? logo : '{% static 'images/uniararas.png' %}'">
+                </div>
+            </div>
+        </div>
+    </div>
+    `
+})
+</script>

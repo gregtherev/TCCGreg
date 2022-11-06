@@ -1,0 +1,27 @@
+<script>
+    Vue.component('team_info', {
+        props: ['team'],
+        data() {
+            return {
+                total_questions: 10,
+                team_name: 'team name',
+                total_time: 0,
+            }
+        },
+        delimiters: ['[[', ']]'],
+        methods: {},
+        template: `
+        <tr>
+            <td class="collapsing">[[ team_name ]]</td>
+            <td>
+                <div class="ui small icon fluid basic buttons">
+                    <div class="ui button" v-for="item in total_questions">
+                        [[ item ]]
+                    </div>
+                </div>
+            </td>
+            <td class="collapsing">[[ total_time ]]</td>
+        </tr>
+        `
+    })
+</script>
