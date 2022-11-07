@@ -1,6 +1,6 @@
 from django.db import models
 from ..accounts.models import Team, Judge
-
+from django.utils import timezone
 
 EVENT_TYPES = (
     (0, "Envio automático"),
@@ -32,6 +32,17 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+
+    def is_running_today(self):
+        return self.date == timezone.now().date()
+
+    def is_active(self):
+        today = timezone.now()
+        today = today.replace(hour=self.start_time.hour,
+                              minute=self.start_time.minute)
+        finish_time = today + timezone.timedelta(hours=self.duration)
+        return (self.is_running_today()
+                and today <= finish_time)
 
     class Meta:
         verbose_name = 'Evento'

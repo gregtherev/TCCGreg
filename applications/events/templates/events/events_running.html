@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block desktop %}
+<style>
+#events_list {
+    margin-top: 10vh !important;
+}
+</style>
+<div class="ui grid">
+    <div class="row">
+        <div class="four wide column"></div>
+        <div class="eight wide column">
+            <div class="ui segment" id="events_list">
+                <h1 class="ui grey dividing header">Eventos em andamento</h1>
+                {% if events %}
+                    {% for event in events %}
+                        <a class="ui fluid button" href="">{{ event }}</a>
+                    {% endfor %}
+                {% else %}
+                    <p>Não há registro de eventos ocorrendo neste momento</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="four wide column"></div>
+    </div>
+</div>
+{% endblock desktop %}

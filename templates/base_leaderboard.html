@@ -2,9 +2,7 @@
 
 {% block desktop %}
     <style type="text/css" media="screen">
-    #leaderboard {
-        padding: 20px !important;
-    }
+        #leaderboard { padding: 20px !important; }
     </style>
 
     <div id="leaderboard">
@@ -13,8 +11,9 @@
                 <!-- left side header -->
                 <div class="ui ten wide column segment">
                     <leftheader></leftheader>
-                    <div class="ui four item small inverted grey menu header_menu">
-                        <a class="item">Administração</a>
+                    <div class="ui four item small borderless menu header_menu">
+                        <a href="{% url 'admin:index' %}" class="item">
+                            Administração</a>
                         <a class="item">Placar</a>
                         <a class="item">Dashboard</a>
                         <a href="{% url 'logout' %}" class="item">Logout</a>

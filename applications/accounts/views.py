@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 
 def login_view(request):
     # TODO - change to a success page
-    success_url = 'semantic_testing'
+    success_url = 'events_running'
 
     if request.user.is_authenticated:
         return redirect(success_url)
