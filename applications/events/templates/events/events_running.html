@@ -2,10 +2,10 @@
 
 {% block desktop %}
 <style>
-#events_list {
-    margin-top: 10vh !important;
-}
+    #events_list { margin-top: 10vh !important; }
+    .envents_marginup { margin-top: 5px !important }
 </style>
+
 <div class="ui grid">
     <div class="row">
         <div class="four wide column"></div>
@@ -13,9 +13,27 @@
             <div class="ui segment" id="events_list">
                 <h1 class="ui grey dividing header">Eventos em andamento</h1>
                 {% if events %}
-                    {% for event in events %}
-                        <a class="ui fluid green button" href="">{{ event }}</a>
-                    {% endfor %}
+                    <table class="ui small selectable table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Instituição</th>
+                                <th>Data</th>
+                                <th>Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in events %}
+                                <tr>
+                                    <td>{{ event }}</td>
+                                    <td>{{ event.institution }}</td>
+                                    <td>{{ event.date }}</td>
+                                    <td>{{ event.start_time }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
                 {% else %}
                     <p>Não há registro de eventos ocorrendo neste momento</p>
                 {% endif %}

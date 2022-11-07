@@ -41,12 +41,12 @@ class Event(models.Model):
         today = today.replace(hour=self.start_time.hour,
                               minute=self.start_time.minute)
         finish_time = today + timezone.timedelta(hours=self.duration)
-        return (self.is_running_today()
-                and today <= finish_time)
+        return (self.is_running_today() and today <= finish_time)
 
     class Meta:
         verbose_name = 'Evento'
         verbose_name_plural = 'Eventos'
+        ordering = ('date', '-start_time')
 
 
 class Question(models.Model):
