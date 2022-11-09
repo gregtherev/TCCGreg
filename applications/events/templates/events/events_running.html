@@ -19,7 +19,8 @@
                                 <th>Nome</th>
                                 <th>Instituição</th>
                                 <th>Data</th>
-                                <th>Hora</th>
+                                <th>Início</th>
+                                <th>Término</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,6 +30,7 @@
                                     <td>{{ event.institution }}</td>
                                     <td>{{ event.date }}</td>
                                     <td>{{ event.start_time }}</td>
+                                    <td>{{ event.finish_time }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>

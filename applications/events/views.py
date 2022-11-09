@@ -8,9 +8,12 @@ from applications.events.models import Event
 @login_required
 def events_running(request):
     """Just events that are running"""
-    right_now = timezone.now()
-    events = [event for event in Event.objects.filter(date=right_now.date())
-              if event.is_active()]
+    # right_now = timezone.now()
+    event_list = []
+    events = Event.objects.all()
+    for event in events:
+        if event.is_active():
+            event_list.append(event)
 
     return render(request, 'events/events_running.html', {'events': events})
 
