@@ -13,3 +13,10 @@ def events_running(request):
               if event.is_active()]
 
     return render(request, 'events/events_running.html', {'events': events})
+
+
+@login_required
+def event_details(request, event: id):
+    """Details of a specific event"""
+    event = Event.objects.get(id=event)
+    return render(request, 'events/event_details.html', {'event': event})
