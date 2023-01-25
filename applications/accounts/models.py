@@ -8,17 +8,17 @@ class Team(User):
     solved_questions = models.IntegerField("Questões resolvidas",
                                            default=0,
                                            blank=True)
-    relative_time = models.PositiveIntegerField("Tempo relativo", null=True)
+    relative_time = models.PositiveIntegerField("Tempo relativo", default=0)
     penalties = models.PositiveIntegerField(
-        "Quantidade de penalidades", null=True)
+        "Quantidade de penalidades", default=0)
     formated_time = models.PositiveIntegerField(
         "Tempo relativo + penalidades", null=True)
-    rt_questions = models.CharField('Questões acertadas', null=True,
-                                    max_length=255)
-    wr_questions = models.CharField('Questões erradas', null=True,
-                                    max_length=255)
-    rc_questions = models.CharField('Questões recuperadas', null=True,
-                                    max_length=255)
+    rt_questions = models.CharField('Questões acertadas', max_length=255,
+                                    default="")
+    wr_questions = models.CharField('Questões erradas', max_length=255,
+                                    default="")
+    rc_questions = models.CharField('Questões recuperadas', max_length=255,
+                                    default="")
     # TODO adicionar atributo para subir o logo da equipe
     event = models.ForeignKey('events.Event', on_delete=models.CASCADE)
     students = models.ManyToManyField(Student)
