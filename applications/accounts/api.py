@@ -36,15 +36,15 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
     team = Team.objects.get(pk=answer_info.team_id)
     question = Question.objects.get(event__id=event_id,
                                     qt_number=question_number)
-    wr_set = team.wr_questions.split(",")
-    rc_set = team.rc_questions.split(",")
-    rt_set = team.rt_questions.split(",")
+    wr_qts = team.wr_questions.split(",")
+    rc_qts = team.rc_questions.split(",")
+    rt_qts = team.rt_questions.split(",")
 
-    if str(question_number) in rc_set or str(question_number) in rt_set:
+    if str(question_number) in rc_qts or str(question_number) in rt_qts:
         return {"status": "ERROR", "reason": "question already solved"}
 
     if answer_info.answer.lower() != question.correct_ansnwer.lower():
-        qt_set = team.wr_questions
+        qt_set = wr_qts
         wr_set = set_add(qt_set, question_number)
 
         team.wr_questions = wr_set
@@ -58,9 +58,9 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
         team.relative_time += answer_info.time
 
         if str(question_number) in team.wr_questions:
-            qt_set = team.wr_questions
+            qt_set = wr_qts
             wr_set = set_remove(qt_set, question_number)
-            qt_set = team.rc_questions
+            qt_set = rc_qts
             rc_set = set_add(qt_set, question_number)
 
             team.wr_questions = wr_set
@@ -69,7 +69,7 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
 
             return {"status": "SUCCESS", "question_status": "recovered"}
 
-        qt_set = team.rt_questions
+        qt_set = rt_qts
         rt_set = set_add(qt_set, question_number)
 
         team.rt_questions = rt_set
@@ -78,9 +78,8 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
         return {"status": "SUCCESS", "question_status": "right"}
 
 
-def set_add(qt_set: str, qt_id: int):
-    _set = qt_set.split(",")
-    _set = set(_set)
+def set_add(qt_set: list, qt_id: int):
+    _set = set(qt_set)
     _set.add(str(qt_id))
 
     if "" in _set:
@@ -89,9 +88,8 @@ def set_add(qt_set: str, qt_id: int):
     return ",".join(_set)
 
 
-def set_remove(qt_set: str, qt_id: int):
-    _set = qt_set.split(",")
-    _set = set(_set)
+def set_remove(qt_set: list, qt_id: int):
+    _set = set(qt_set)
     _set.remove(str(qt_id))
 
     if "" in _set:
