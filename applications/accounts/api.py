@@ -40,10 +40,10 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
     rc_set = team.rc_questions.split(",")
     rt_set = team.rt_questions.split(",")
 
-    if answer_info.answer.lower() != question.correct_ansnwer.lower():
-        if str(question_number) in rc_set or str(question_number) in rt_set:
-            return {"status": "ERROR", "reason": "question already solved"}
+    if str(question_number) in rc_set or str(question_number) in rt_set:
+        return {"status": "ERROR", "reason": "question already solved"}
 
+    if answer_info.answer.lower() != question.correct_ansnwer.lower():
         qt_set = team.wr_questions
         wr_set = set_add(qt_set, question_number)
 
