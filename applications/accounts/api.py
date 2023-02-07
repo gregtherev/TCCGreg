@@ -20,7 +20,7 @@ def leaderboard_teams(request, event_id: int):
     teams_list = []
 
     print(event.id)
-    
+
     for team in teams:
         team.formated_time = ((team.penalties/60) * event.punishment_value
                               if team.penalties else team.punishment_value)

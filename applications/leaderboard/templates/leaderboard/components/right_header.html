@@ -1,33 +1,50 @@
 <script>
     Vue.component('rightheader', {
-        data() {
-            return {
-                date: '05/11/2022',
-                time: 0,
-                interval: null,
-            }
+    data() {
+        return {
+            date: '05/11/2022',
+            time: 7200,
+            interval: null,
+        };
+    },
+    delimiters: ['[[', ']]'],
+    computed: {
+        hours() {
+            return Math.floor(this.time / 60 / 60);
         },
-        delimiters: ['[[', ']]'],
-        methods: {
-            start() {
-                this.interval = setInterval(() => {
-                    this.time += 1
-                }, 1000)
-            },
-            stop() { clearInterval(this.interval) },
+        minutes() {
+            return Math.floor(this.time / 60) % 60;
         },
-        mounted() { this.start() },
-        beforeDestroy() { this.stop() },
-        template: `
-        <div class="ui two column grid">
-            <div class="column">
-                <h1 class="ui grey header">[[ date ]]</h1>
-            </div>
+        seconds() {
+            return this.time % 60;
+        },
+    },
+    methods: {
+        start() {
+            this.interval = setInterval(() => {
+                this.time -= 1;
+            }, 1000);
+        },
+        stop() {
+            clearInterval(this.interval);
+        },
+    },
+    mounted() {
+        this.start();
+    },
+    beforeDestroy() {
+        this.stop();
+    },
+    template: `
+            <div class="ui two column grid">
+                <div class="column">
+                    <h1 class="ui grey header">[[ date ]]</h1>
+                </div>
 
-            <div class="column">
-                <h1 class="ui grey header">[[ time ]]</h1>
+                <div class="column">
+                    <h1 class="ui grey header">[[ String(hours).padStart(2, '0') ]]:[[ String(minutes).padStart(2, '0') ]]:[[ String(seconds).padStart(2, '0') ]]</h1>
+                </div>
             </div>
-        </div>
         `
-    })
+    });
 </script>
