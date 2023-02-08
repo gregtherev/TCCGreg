@@ -64,7 +64,9 @@ class Question(models.Model):
     # image = models.ImageField('Upload de imagem', upload_to=None, height_field=None, width_field=None, max_length=None) ## NOQA
     correct_ansnwer = models.CharField("Alternativa correta ('X' caso seja validação de juíz)",  # NOQA
                                        max_length=1)
-    event = models.ForeignKey('Event', on_delete=models.CASCADE)
+    event = models.ForeignKey('Event',
+                              on_delete=models.CASCADE,
+                              verbose_name='Evento')
 
     def __str__(self):
         return f'Questão {self.id}'
