@@ -25,7 +25,7 @@
                         </thead>
                         <tbody>
                             {% for event in events %}
-                                <tr>
+                                <tr onclick="window.location.href='/event_details/{{event.id}}'">
                                     <td>{{ event }}</td>
                                     <td>{{ event.institution }}</td>
                                     <td>{{ event.date }}</td>
