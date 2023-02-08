@@ -21,7 +21,7 @@ def generate_strange_url():
 
 
 urlpatterns = [
-    path(f'{generate_strange_url()}/', admin.site.urls),
+    path('admin/', admin.site.urls),
 
     # semantic-ui testing
     path('ranking/', test_page_for_templates, name='semantic_testing'),
