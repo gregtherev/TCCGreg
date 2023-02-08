@@ -20,7 +20,9 @@ class Team(User):
     rc_questions = models.CharField('Questões recuperadas', max_length=255,
                                     default="")
     # TODO adicionar atributo para subir o logo da equipe
-    event = models.ForeignKey('events.Event', on_delete=models.CASCADE)
+    event = models.ForeignKey('events.Event',
+                              on_delete=models.CASCADE,
+                              verbose_name='Evento')
     students = models.ManyToManyField(Student)
 
     def __str__(self):
