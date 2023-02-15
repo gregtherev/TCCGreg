@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block desktop %}
+    <style type="text/css" media="screen">
+        #leaderboard { padding: 20px !important; }
+    </style>
+
+    <div id="leaderboard">
+        <div class="ui grid">
+            <div class="row">
+                <!-- left side header -->
+                <div class="ui ten wide column segment">
+                    <leftheader></leftheader>
+                    <div class="ui four item small borderless menu header_menu">
+                        <a href="{% url 'admin:index' %}" class="item">
+                            Administração</a>
+                        <a class="item">Placar</a>
+                        <a class="item">Dashboard</a>
+                        <a href="{% url 'logout' %}" class="item">Logout</a>
+                    </div>
+                </div>
+
+                <!-- right side header -->
+                <div class="six wide column">
+                    <div class="ui center aligned segment">
+                        <rightheader></rightheader>
+                    </div>
+                </div>
+            </div>
+
+            <!-- table teams content -->
+            <teams_position></teams_position>
+        </div>
+    </div>
+
+    <!-- components -->
+    {% include "leaderboard/components/left_header.html" %}
+    {% include "leaderboard/components/right_header.html" %}
+    {% include "leaderboard/components/teams_position.html" %}
+
+    <script>
+        new Vue({
+            el: '#leaderboard',
+            delimiters: ['[[', ']]'],
+            data () { return {} },
+            methods: {}
+        })
+    </script>
+{% endblock desktop %}

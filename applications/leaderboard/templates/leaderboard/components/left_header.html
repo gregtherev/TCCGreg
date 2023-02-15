@@ -4,8 +4,8 @@
 Vue.component('leftheader', {
     data() {
         return {
-            event_name: '',
-            institution: '',
+            event_name: 'Nome do evento que virá com o axios',
+            institution: 'Nome da instituição que virá com o axios',
             logo: null
         }
     },
@@ -16,10 +16,10 @@ Vue.component('leftheader', {
         <div class="row">
             <div class="ten wide column">
                 <h1 class="ui grey header">
-                    [[ event_name ? event_name : "Evento padrão" ]]
+                    [[ event_name ]]
                     <br>
                     <small>
-                        [[ institution ? institution : "UniAraras" ]]
+                        [[ institution ]]
                     </small>
                 </h1>
             </div>
