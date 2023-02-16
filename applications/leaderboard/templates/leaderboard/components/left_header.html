@@ -1,13 +1,24 @@
 {% load static %}
 
 <script>
-Vue.component('leftheader', {
+    Vue.component('leftheader', {
     data() {
         return {
-            event_name: 'Nome do evento que virá com o axios',
-            institution: 'Nome da instituição que virá com o axios',
+            event_name: '',
+            event_institution: '',
             logo: null
         }
+    },
+    mounted() {
+    axios.get('http://localhost:8000/api/events/2')
+        .then(response => {
+            // Parse the response data to extract the questions
+            this.event_name = response.data.event_name
+            this.event_institution = response.data.event_institution
+        })
+        .catch(error => {
+            console.log(error)
+      })
     },
     delimiters: ['[[', ']]'],
     methods: {},
@@ -19,7 +30,7 @@ Vue.component('leftheader', {
                     [[ event_name ]]
                     <br>
                     <small>
-                        [[ institution ]]
+                        [[ event_institution ]]
                     </small>
                 </h1>
             </div>

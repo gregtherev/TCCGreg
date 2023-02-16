@@ -1,11 +1,13 @@
+{% load static %}
+
 <script>
     Vue.component('rightheader', {
     data() {
         return {
-            date: '05/11/2022',
-            time: 7200,
-            interval: null,
-        };
+            event_date: '',
+            time: '',
+            event_remaining_time: null
+        }
     },
     delimiters: ['[[', ']]'],
     computed: {
@@ -30,6 +32,16 @@
         },
     },
     mounted() {
+        axios.get('http://localhost:8000/api/events/event_duration/2')
+            .then(response => {
+                // Parse the response data to extract the questions
+                this.event_date = response.data.date
+                this.time = response.data.remaining_seconds
+            })
+            .catch(error => {
+                console.log(error)
+        }),
+
         this.start();
     },
     beforeDestroy() {
@@ -38,7 +50,7 @@
     template: `
             <div class="ui two column grid">
                 <div class="column">
-                    <h1 class="ui grey header">[[ date ]]</h1>
+                    <h1 class="ui grey header">[[ event_date ]]</h1>
                 </div>
 
                 <div class="column">
