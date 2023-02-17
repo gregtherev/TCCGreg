@@ -2,7 +2,30 @@
 
 <script>
     Vue.component('teams_position', {
-        data() { return {} },
+        data() {
+            return {
+                teams: [],
+                total_questions: ""
+            } 
+        },
+        mounted() {
+            axios.get('http://localhost:8000/api/accounts/leaderboard-teams/2')
+                .then(response => {
+                    // Parse the response data to extract the questions
+                    this.teams = response.data
+                })
+                .catch(error => {
+                    console.log(error)
+            })
+            axios.get('http://localhost:8000/api/events/2')
+                .then(response => {
+                    // Parse the response data to extract the questions
+                    this.total_questions = response.data.event_total_questions
+                })
+                .catch(error => {
+                    console.log(error)
+            })
+        },
         delimiters: ['[[', ']]'],
         methods: {},
         template: `
@@ -16,7 +39,7 @@
             </thead>
 
             <tbody>
-                <team_info></team_info>
+                <team_info v-for="item in teams" :key="item" :team="item" :total_questions="total_questions"></team_info>
             </tbody>
         </table>
         `

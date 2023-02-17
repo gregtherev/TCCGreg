@@ -15,15 +15,16 @@ def hello(request):
 
 @router.get("/leaderboard-teams/{event_id}")
 def leaderboard_teams(request, event_id: int):
-    teams = Team.objects.filter(event__id=event_id)
+    teams = Team.objects.filter(event__id=event_id).order_by("-solved_questions", "-formated_time")
     event = Event.objects.get(id=event_id)
     teams_list = []
 
     print(event.id)
 
     for team in teams:
-        team.formated_time = ((team.penalties/60) * event.punishment_value
-                              if team.penalties else team.punishment_value)
+        team.formated_time = team.relative_time
+        if team.penalties > 0:
+            team.formated_time = team.formated_time + ((team.penalties) * event.punishment_value)
         team_info = TeamSchema(**team.__dict__)
         teams_list.append(team_info)
 

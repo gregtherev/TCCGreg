@@ -2,7 +2,7 @@
 from ninja import Router
 from datetime import timedelta, datetime, date
 
-from ..events.models import Event
+from ..events.models import Event, Question
 
 router = Router()
 
@@ -15,9 +15,11 @@ def hello(request):
 @router.get("/{event_id}")
 def event_info(request, event_id: int):
     event = Event.objects.get(pk=event_id)
+    total_questions = Question.objects.filter(event__id=event.id).count()
     event_dict = {
         "event_name": event.name,
         "event_institution": event.institution.name,
+        "event_total_questions": total_questions
     }
 
     return event_dict

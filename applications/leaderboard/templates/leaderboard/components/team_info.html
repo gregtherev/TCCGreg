@@ -1,9 +1,8 @@
 <script>
     Vue.component('team_info', {
-        props: ['team'],
+        props: ['team', 'total_questions'],
         data() {
             return {
-                total_questions: 10,
                 team_name: 'Sol ta forte',
                 total_time: 120,
                 rt_questions: "1, 3",
@@ -16,18 +15,18 @@
         methods: {},
         template: `
         <tr>
-            <td class="collapsing">[[ team_name ]]</td>
+            <td class="collapsing">[[ team.name ]]</td>
             <td>
                 <div class="ui small icon fluid buttons">
                     <div class="ui small icon fluid buttons" v-for="item in total_questions" :key="item">
-                        <div v-if="wr_questions.includes(item)" class="ui red button">[[ item ]]</div>
-                        <div v-else-if="rc_questions.includes(item)" class="ui orange button">[[ item ]]</div>
-                        <div v-else-if="rt_questions.includes(item)" class="ui green button">[[ item ]]</div>
+                        <div v-if="team.wr_questions.includes(item)" class="ui red button">[[ item ]]</div>
+                        <div v-else-if="team.rc_questions.includes(item)" class="ui orange button">[[ item ]]</div>
+                        <div v-else-if="team.rt_questions.includes(item)" class="ui green button">[[ item ]]</div>
                         <div class="ui button" v-else>[[ item ]]</div>
                     </div>
                  </div>
             </td>
-            <td class="collapsing">[[ total_time ]]([[ punishments ]])</td>
+            <td class="collapsing">[[ team.formated_time ]]([[ team.penalties ]])</td>
         </tr>
         `
     })
