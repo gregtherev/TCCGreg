@@ -20,8 +20,15 @@ class EventForm(forms.ModelForm):
 
 class EventAdmin(admin.ModelAdmin):
     form = EventForm
+    list_display = ('name', 'institution', 'date')
+    search_fields = ['name', 'institution__name', 'date']
+
+
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = ('qt_number', 'event')
+    search_fields = ['qt_number', 'event__name']
 
 
 admin.site.register(Institution)
 admin.site.register(Event, EventAdmin)
-admin.site.register(Question)
+admin.site.register(Question, QuestionAdmin)

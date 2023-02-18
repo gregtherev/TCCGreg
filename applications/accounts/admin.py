@@ -27,6 +27,8 @@ class JudgeForm(JudgeCreationForm):
 
 class TeamAdmin(admin.ModelAdmin):
     form = TeamForm
+    list_display = ('name', 'event')
+    search_fields = ['name', 'event__name']
 
 
 class JudgeAdmin(admin.ModelAdmin):
