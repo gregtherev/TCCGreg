@@ -1,5 +1,6 @@
 """This module contains the API for the accounts application."""
 from ninja import Router
+from datetime import datetime
 
 from .models import Team
 from ..events.models import Question, Event
@@ -15,14 +16,15 @@ def hello(request):
 
 @router.get("/leaderboard-teams/{event_id}")
 def leaderboard_teams(request, event_id: int):
-    teams = Team.objects.filter(event__id=event_id).order_by("-solved_questions", "-formated_time")
+    teams = Team.objects.filter(event__id=event_id)\
+        .order_by("-solved_questions", "-formated_time")
     event = Event.objects.get(id=event_id)
     teams_list = []
 
     print(event.id)
 
     for team in teams:
-        team.formated_time = team.relative_time
+        team.formated_time = team.relative_time/60
         if team.penalties > 0:
             team.formated_time = team.formated_time + ((team.penalties) * event.punishment_value)
         team_info = TeamSchema(**team.__dict__)
@@ -55,8 +57,11 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
         return {"status": "SUCCESS", "question_status": "wrong"}
 
     if answer_info.answer.lower() == question.correct_ansnwer.lower():
+        now = datetime.utcnow()
+        start_time = question.event.start_time.replace(tzinfo=None)
+        diff = now - start_time
         team.solved_questions += 1
-        team.relative_time += answer_info.time
+        team.relative_time += (diff).total_seconds()
 
         if str(question_number) in team.wr_questions:
             qt_set = wr_qts

@@ -17,7 +17,7 @@ SUBMISSION_STATUS = (
 class Event(models.Model):
     name = models.CharField("Nome do evento", max_length=255)
     date = models.DateField("Data do evento")
-    start_time = models.TimeField("Hora de início", blank=True, null=True)
+    start_time = models.DateTimeField("Hora de início", blank=True, null=True)
     duration = models.PositiveIntegerField("Duraçao do evento em horas",
                                            null=True,
                                            default=1)

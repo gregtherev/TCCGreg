@@ -28,9 +28,9 @@ def event_info(request, event_id: int):
 @router.get("/event_duration/{event_id}")
 def event_duration(request, event_id: int):
     event = Event.objects.get(pk=event_id)
-    remaining_time = (datetime.combine(date.today(), event.start_time)
-                      + timedelta(hours=event.duration))
-    now = datetime.now()
+    remaining_time = (event.start_time + timedelta(hours=event.duration))
+    remaining_time = remaining_time.replace(tzinfo=None)
+    now = datetime.utcnow()
     remaining_seconds = (remaining_time-now).total_seconds()
 
     event_dict = {
