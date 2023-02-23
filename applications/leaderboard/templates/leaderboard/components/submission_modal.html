@@ -1,0 +1,42 @@
+{% include "./team_info.html" %}
+
+<script>
+    Vue.component('submission_modal', {
+        data() {
+            return {
+                teams: [],
+                total_questions: ""
+            } 
+        },
+        delimiters: ['[[', ']]'],
+        methods: {},
+        template: `
+        <div class="ui tiny modal blurring dimmable" id="submission_modal">
+            <i class="close icon"></i>
+            <div class="header">
+                Submeta uma resposta
+            </div>
+            <div class="content">
+                <div class="ui form">
+                <div class="field">
+                    <label>Question number</label>
+                    <input type="text" name="question-number" placeholder="Question number">
+                </div>
+                <div class="field">
+                    <label>Answer choice</label>
+                    <input type="text" name="answer-choice" placeholder="Answer choice">
+                </div>
+                </div>
+            </div>
+            <div class="actions">
+                <div class="ui negative button">
+                    Cancel
+                </div>
+                <div class="ui positive button">
+                    Send
+                </div>
+            </div>
+        </div>
+        `
+    })
+</script>
