@@ -50,7 +50,7 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
     if str(question_number) in rc_qts or str(question_number) in rt_qts:
         return {"status": "ERROR", "reason": "question already solved"}
 
-    submission = Submission.objects.create(
+    submission = Submission(
                         question=question,
                         answer=answer_info.answer,
                         time=now,
