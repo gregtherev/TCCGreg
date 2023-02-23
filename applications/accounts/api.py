@@ -3,7 +3,7 @@ from ninja import Router
 from datetime import datetime
 
 from .models import Team
-from ..events.models import Question, Event
+from ..events.models import Question, Event, Submission
 from .schemas import TeamSchema, AnswerSchema  # NoQA
 
 router = Router()
@@ -42,9 +42,22 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
     wr_qts = team.wr_questions.split(",")
     rc_qts = team.rc_questions.split(",")
     rt_qts = team.rt_questions.split(",")
+    now = datetime.utcnow()
+
+    if len(answer_info.answer) > 1:
+        return {"status": "ERROR", "reason": "Answer len must be 1 char"}
 
     if str(question_number) in rc_qts or str(question_number) in rt_qts:
         return {"status": "ERROR", "reason": "question already solved"}
+
+    submission = Submission.objects.create(
+                        question=question,
+                        answer=answer_info.answer,
+                        time=now,
+                        status=1,
+                        event=team.event,
+                        team=team
+                        )
 
     if answer_info.answer.lower() != question.correct_ansnwer.lower():
         qt_set = wr_qts
@@ -53,11 +66,12 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
         team.wr_questions = wr_set
         team.penalties += 1
         team.save()
+        submission.status = 0
+        submission.save()
 
         return {"status": "SUCCESS", "question_status": "wrong"}
 
     if answer_info.answer.lower() == question.correct_ansnwer.lower():
-        now = datetime.utcnow()
         start_time = question.event.start_time.replace(tzinfo=None)
         diff = now - start_time
         team.solved_questions += 1
@@ -72,6 +86,7 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
             team.wr_questions = wr_set
             team.rc_questions = rc_set
             team.save()
+            submission.save()
 
             return {"status": "SUCCESS", "question_status": "recovered"}
 
@@ -80,6 +95,7 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
 
         team.rt_questions = rt_set
         team.save()
+        submission.save()
 
         return {"status": "SUCCESS", "question_status": "right"}
 
