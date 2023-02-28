@@ -4,9 +4,11 @@
     Vue.component('rightheader', {
     data() {
         return {
+            event_id: '{{ request.user.team.event.id }}',
             event_date: '',
             time: '',
-            event_remaining_time: null
+            event_remaining_time: null,
+            interval: null
         }
     },
     delimiters: ['[[', ']]'],
@@ -24,7 +26,12 @@
     methods: {
         start() {
             this.interval = setInterval(() => {
-                this.time -= 1;
+                if (this.time > 0){
+                    this.time -= 1;
+                }
+                else {
+                    this.stop();
+                }
             }, 1000);
         },
         stop() {
@@ -32,7 +39,7 @@
         },
     },
     mounted() {
-        axios.get('http://localhost:8000/api/events/event_duration/2')
+        axios.get('http://localhost:8000/api/events/event_duration/' + this.event_id)
             .then(response => {
                 // Parse the response data to extract the questions
                 this.event_date = response.data.date
@@ -54,7 +61,8 @@
                 </div>
 
                 <div class="column">
-                    <h1 class="ui grey header">[[ String(hours).padStart(2, '0') ]]:[[ String(minutes).padStart(2, '0') ]]:[[ String(seconds).padStart(2, '0') ]]</h1>
+                    <h1 v-if="time > 0" class="ui grey header">[[ String(hours).padStart(2, '0') ]]:[[ String(minutes).padStart(2, '0') ]]:[[ String(seconds).padStart(2, '0') ]]</h1>
+                    <h1 v-else class="ui grey header">Evento encerrado</h1>
                 </div>
             </div>
         `
