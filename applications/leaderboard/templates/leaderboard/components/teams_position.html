@@ -4,12 +4,13 @@
     Vue.component('teams_position', {
         data() {
             return {
+                event_id: '{{ request.user.team.event.id }}',
                 teams: [],
                 total_questions: ""
             } 
         },
         mounted() {
-            axios.get('http://localhost:8000/api/accounts/leaderboard-teams/2')
+            axios.get('http://localhost:8000/api/accounts/leaderboard-teams/'+this.event_id)
                 .then(response => {
                     // Parse the response data to extract the questions
                     this.teams = response.data
@@ -17,7 +18,7 @@
                 .catch(error => {
                     console.log(error)
             })
-            axios.get('http://localhost:8000/api/events/2')
+            axios.get('http://localhost:8000/api/events/'+this.event_id)
                 .then(response => {
                     // Parse the response data to extract the questions
                     this.total_questions = response.data.event_total_questions

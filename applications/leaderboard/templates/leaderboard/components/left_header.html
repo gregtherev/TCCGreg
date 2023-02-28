@@ -4,13 +4,14 @@
     Vue.component('leftheader', {
     data() {
         return {
+            event_id: '{{ request.user.team.event.id }}',
             event_name: '',
             event_institution: '',
             logo: null
         }
     },
     mounted() {
-    axios.get('http://localhost:8000/api/events/2')
+    axios.get('http://localhost:8000/api/events/' + this.event_id)
         .then(response => {
             // Parse the response data to extract the questions
             this.event_name = response.data.event_name
