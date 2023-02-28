@@ -14,8 +14,10 @@
                     <div class="ui four item small borderless menu header_menu">
                         <a href="{% url 'admin:index' %}" class="item">
                             Administração</a>
-                        <a class="item">Placar</a>
-                        <a class="item">Dashboard</a>
+                        {% comment %} <a class="item">Placar</a> {% endcomment %}
+                        {% comment %} <a class="item">Dashboard</a> {% endcomment %}
+                        <a class="item" @click="showModal('submission_modal')">Submeter</a>
+                        <a class="item" @click="showModal('submissions_sent_modal')">Histórico</a>
                         <a href="{% url 'logout' %}" class="item">Logout</a>
                     </div>
                 </div>
@@ -30,6 +32,10 @@
 
             <!-- table teams content -->
             <teams_position></teams_position>
+
+            <!-- modal declaration-->
+            <submission_modal></submission_modal>
+            <submissions_sent_modal></submissions_sent_modal>
         </div>
     </div>
 
@@ -37,13 +43,26 @@
     {% include "leaderboard/components/left_header.html" %}
     {% include "leaderboard/components/right_header.html" %}
     {% include "leaderboard/components/teams_position.html" %}
+    {% include "leaderboard/components/submission_modal.html" %}
+    {% include "leaderboard/components/submissions_sent_modal.html" %}
 
     <script>
+
         new Vue({
             el: '#leaderboard',
             delimiters: ['[[', ']]'],
             data () { return {} },
-            methods: {}
+            methods: {
+                showModal(modalName) {
+                    // show the modal
+                    $('#'+modalName)
+                    .modal({
+                        inverted: true
+                    })
+                    .modal('setting', 'transition', 'fade')
+                    .modal('show');
+                },
+            }
         })
     </script>
 {% endblock desktop %}
