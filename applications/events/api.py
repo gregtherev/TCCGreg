@@ -1,8 +1,8 @@
 """This module contains the API for the events application."""
 from ninja import Router
-from datetime import timedelta, datetime, date
+from datetime import timedelta, datetime
 
-from ..events.models import Event, Question
+from ..events.models import Event, Question, Submission
 
 router = Router()
 
@@ -39,3 +39,20 @@ def event_duration(request, event_id: int):
     }
 
     return event_dict
+
+
+@router.get("/submissions/{event_id}/{team_id}")
+def team_submissions(request, event_id: int, team_id: int):
+    submissions = []
+    query = Submission.objects.filter(event_id=event_id, team_id=team_id)
+
+    for item in query:
+        submission = {
+            "question": item.question.id,
+            "answer": item.answer,
+            "status": item.status,
+            "sent_on": item.time,
+        }
+        submissions.append(submission)
+
+    return submissions
