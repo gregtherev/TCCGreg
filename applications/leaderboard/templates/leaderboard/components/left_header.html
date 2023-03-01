@@ -11,6 +11,11 @@
         }
     },
     mounted() {
+    if (!(this.event_id)) {
+            this.event_id = '{{ request.path_info }}'.toString()
+            this.event_id = (this.event_id.split('/').slice(2,3)).toString()
+            console.log(this.event_id)
+    }
     axios.get('http://localhost:8000/api/events/' + this.event_id)
         .then(response => {
             // Parse the response data to extract the questions
