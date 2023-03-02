@@ -1,8 +1,8 @@
 """This module contains the API for the events application."""
 from ninja import Router
-from datetime import timedelta, datetime
 
 from ..events.models import Event, Question, Submission
+from utils.utils import calculate_remaining_time
 
 router = Router()
 
@@ -28,11 +28,7 @@ def event_info(request, event_id: int):
 @router.get("/event_duration/{event_id}")
 def event_duration(request, event_id: int):
     event = Event.objects.get(pk=event_id)
-    remaining_time = (event.start_time + timedelta(hours=event.duration))
-    remaining_time = remaining_time.replace(tzinfo=None)
-    now = datetime.utcnow()
-    remaining_seconds = (remaining_time-now).total_seconds()
-
+    remaining_seconds = calculate_remaining_time(event)
     event_dict = {
         "date": event.date.strftime("%d/%m/%Y"),
         "remaining_seconds": int(remaining_seconds)

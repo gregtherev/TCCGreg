@@ -26,6 +26,8 @@ class Event(models.Model):
     punishment_value = models.IntegerField(
         verbose_name='Valor em minutos de cada punição acumulada',
         default=20)
+    final_results = models.JSONField("Resultado final", null=True, blank=True)
+    partial_results = models.JSONField("Resultado parcial", null=True, blank=True)
     institution = models.ForeignKey('Institution',
                                     on_delete=models.SET_NULL,
                                     null=True)

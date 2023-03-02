@@ -1,10 +1,12 @@
 """This module contains the API for the accounts application."""
-from ninja import Router
 from datetime import datetime
+from ninja import Router
 
-from .models import Team
+from .application import list_leaderboard
 from ..events.models import Question, Event, Submission
-from .schemas import TeamSchema, AnswerSchema  # NoQA
+from .models import Team
+from .schemas import AnswerSchema  # NoQA
+from utils.utils import calculate_remaining_time
 
 router = Router()
 
@@ -16,21 +18,16 @@ def hello(request):
 
 @router.get("/leaderboard-teams/{event_id}")
 def leaderboard_teams(request, event_id: int):
-    teams = Team.objects.filter(event__id=event_id)\
-        .order_by("-solved_questions", "-formated_time")
     event = Event.objects.get(id=event_id)
-    teams_list = []
 
-    print(event.id)
+    return event.partial_results
 
-    for team in teams:
-        team.formated_time = team.relative_time/60
-        if team.penalties > 0:
-            team.formated_time = team.formated_time + ((team.penalties) * event.punishment_value)
-        team_info = TeamSchema(**team.__dict__)
-        teams_list.append(team_info)
 
-    return teams_list
+@router.get("/final_leaderboard/{event_id}")
+def final_leaderboard(request, event_id: int):
+    event = Event.objects.get(id=event_id)
+
+    return event.final_results
 
 
 @router.post("/submit-answer/{event_id}/{question_number}")
@@ -39,6 +36,7 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
     team = Team.objects.get(pk=answer_info.team_id)
     question = Question.objects.get(event__id=event_id,
                                     qt_number=question_number)
+    event = Event.objects.get(pk=event_id)
     wr_qts = team.wr_questions.split(",")
     rc_qts = team.rc_questions.split(",")
     rt_qts = team.rt_questions.split(",")
@@ -69,9 +67,9 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
         submission.status = 0
         submission.save()
 
-        return {"status": "SUCCESS", "question_status": "wrong"}
+        message = {"status": "SUCCESS", "question_status": "wrong"}
 
-    if answer_info.answer.lower() == question.correct_ansnwer.lower():
+    elif answer_info.answer.lower() == question.correct_ansnwer.lower():
         start_time = question.event.start_time.replace(tzinfo=None)
         diff = now - start_time
         team.solved_questions += 1
@@ -88,16 +86,26 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
             team.save()
             submission.save()
 
-            return {"status": "SUCCESS", "question_status": "recovered"}
+            message = {"status": "SUCCESS", "question_status": "recovered"}
 
-        qt_set = rt_qts
-        rt_set = set_add(qt_set, question_number)
+        else:
+            qt_set = rt_qts
+            rt_set = set_add(qt_set, question_number)
 
-        team.rt_questions = rt_set
-        team.save()
-        submission.save()
+            team.rt_questions = rt_set
+            team.save()
+            submission.save()
 
-        return {"status": "SUCCESS", "question_status": "right"}
+            message = {"status": "SUCCESS", "question_status": "right"}
+
+    remaining_seconds = calculate_remaining_time(event)
+    leaderboard = list_leaderboard(event)
+    if remaining_seconds > 360:
+        event.partial_results = leaderboard
+    event.final_results = leaderboard
+    event.save()
+
+    return message
 
 
 def set_add(qt_set: list, qt_id: int):

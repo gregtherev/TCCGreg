@@ -18,7 +18,7 @@
             axios.get('http://localhost:8000/api/accounts/leaderboard-teams/'+this.event_id)
                 .then(response => {
                     // Parse the response data to extract the questions
-                    this.teams = response.data
+                    this.teams = response.data.teams
                 })
                 .catch(error => {
                     console.log(error)
