@@ -14,7 +14,6 @@
                     <div class="ui four item small borderless menu header_menu">
                         {% if request.user.is_anonymous == True %}
                             <a href="{% url 'events_running' %}" class="item">Outros eventos</a>
-                            <a class="item">Questões</a>
                         {% elif request.user.is_anonymous == False %}
                             <a class="item" @click="showModal('submission_modal')">Submeter</a>
                             <a class="item" @click="showModal('submissions_sent_modal')">Histórico</a>
@@ -23,7 +22,7 @@
                         {% else %}
                             <a href="{% url 'admin:index' %}" class="item">Administração</a>
                             <a class="item" @click="showModal('submissions_sent_modal')">Histórico Geral</a>
-                            <a  class="item">Questões</a>
+                            <a  class="item">Placar Final</a>
                             <a href="{% url 'logout' %}" class="item">Logout</a>
                         {% endif %}
                         {{ request.user.is_admin }}
