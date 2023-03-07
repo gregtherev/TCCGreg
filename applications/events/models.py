@@ -28,6 +28,8 @@ class Event(models.Model):
         default=20)
     final_results = models.JSONField("Resultado final", null=True, blank=True)
     partial_results = models.JSONField("Resultado parcial", null=True, blank=True)
+    is_active = models.BooleanField(default=False)
+    is_finished = models.BooleanField(default=False)
     institution = models.ForeignKey('Institution',
                                     on_delete=models.SET_NULL,
                                     null=True)
@@ -38,13 +40,6 @@ class Event(models.Model):
 
     def is_running_today(self):
         return self.date == datetime.now().date()
-
-    def is_active(self):
-        today = datetime.now()
-        today = today.replace(hour=self.start_time.hour,
-                              minute=self.start_time.minute)
-        finish_time = today + timedelta(hours=self.duration)
-        return (self.is_running_today() and today <= finish_time)
 
     def finish_time(self):
         finish_time = datetime.now()

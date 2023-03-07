@@ -25,7 +25,7 @@ def event_details(request):
 
 def event_details_spec(request, event: id):
     """Details of specific event for spectators"""
-    if not request.user.is_anonymous:
+    if not request.user.is_anonymous and not request.user.is_superuser:
         return redirect('event_details')
     event = Event.objects.get(id=event)
     return render(request, 'events/event_details.html', {'event': event})
