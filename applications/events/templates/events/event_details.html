@@ -12,20 +12,23 @@
                 <div class="ui ten wide column segment">
                     <leftheader></leftheader>
                     <div class="ui four item small borderless menu header_menu">
-                        {% if request.user.is_anonymous == True %}
+                        {% if not request.user.team.event.is_active and request.user.team.event.is_finished %}
+                            <a  class="item">Placar Final</a>
+                        {% endif %}
+                        {% if request.user.is_superuser %}
+                            <a href="{% url 'admin:index' %}" class="item">Administração</a>
+                            <a class="item" @click="showModal('all_submissions_sent_modal')">Histórico Geral</a>
+                            <a href="{% url 'logout' %}" class="item">Logout</a>
+                        {% elif request.user.is_anonymous == True %}
                             <a href="{% url 'events_running' %}" class="item">Outros eventos</a>
-                        {% elif request.user.is_anonymous == False %}
-                            <a class="item" @click="showModal('submission_modal')">Submeter</a>
+                        {% else %}
+                            {% if not request.user.team.event.is_finished and request.user.team.event.is_active %}
+                                <a class="item" @click="showModal('submission_modal')">Submeter</a>
+                            {% endif %}
                             <a class="item" @click="showModal('submissions_sent_modal')">Histórico</a>
                             <a class="item">Questões</a>
                             <a href="{% url 'logout' %}" class="item">Logout</a>
-                        {% else %}
-                            <a href="{% url 'admin:index' %}" class="item">Administração</a>
-                            <a class="item" @click="showModal('submissions_sent_modal')">Histórico Geral</a>
-                            <a  class="item">Placar Final</a>
-                            <a href="{% url 'logout' %}" class="item">Logout</a>
                         {% endif %}
-                        {{ request.user.is_admin }}
                     </div>
                 </div>
 
@@ -43,6 +46,7 @@
             <!-- modal declaration-->
             <submission_modal></submission_modal>
             <submissions_sent_modal></submissions_sent_modal>
+            <all_submissions_sent_modal></all_submissions_sent_modal>
         </div>
     </div>
 
@@ -52,6 +56,7 @@
     {% include "leaderboard/components/teams_position.html" %}
     {% comment %} {% include "leaderboard/components/submission_modal.html" %} {% endcomment %}
     {% include "leaderboard/components/submissions_sent_modal.html" %}
+    {% include "leaderboard/components/all_submissions_sent_modal.html" %}
 
     <script>
 

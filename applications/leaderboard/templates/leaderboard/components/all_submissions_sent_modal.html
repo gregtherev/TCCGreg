@@ -1,17 +1,21 @@
 {% include "./team_info.html" %}
 
 <script>
-    Vue.component('submissions_sent_modal', {
+    Vue.component('all_submissions_sent_modal', {
         data() {
             return {
                 event_id: '{{ request.user.team.event.id }}',
-                team_id: '{{ request.user.team.id }}',
                 team_submissions: ''
             } 
         },
         delimiters: ['[[', ']]'],
         mounted() {
-        axios.get('http://localhost:8000/api/events/submissions/'+this.event_id+'/'+this.team_id)
+        if (!(this.event_id)) {
+            this.event_id = '{{ request.path_info }}'.toString()
+            this.event_id = (this.event_id.split('/').slice(2,3)).toString()
+            console.log(this.event_id)
+        }
+        axios.get('http://localhost:8000/api/events/submissions/'+this.event_id)
             .then(response => {
                 // Parse the response data to extract the questions
                 this.team_submissions = response.data
@@ -22,11 +26,12 @@
         },
         methods: {},
         template: `
-        <div class="ui large modal blurring dimmable" id="submissions_sent_modal">
+        <div class="ui large modal blurring dimmable" id="all_submissions_sent_modal">
             <i class="black close icon"></i>
             <table class="ui celled striped table">
                 <thead>
                     <tr>
+                        <th>Time</th>
                         <th>Questão</th>
                         <th>Resposta</th>
                         <th>Status</th>
@@ -35,6 +40,7 @@
                 </thead>
                 <tbody v-for="item in team_submissions" :key="item">
                     <tr>
+                        <td data-label="Team">[[ item.team ]]</td>
                         <td data-label="Question">[[ item.question ]]</td>
                         <td data-label="Answer">[[ item.answer ]]</td>
                         <td data-label="Status" class="center aligned">
