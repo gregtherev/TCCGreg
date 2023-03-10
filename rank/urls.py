@@ -27,11 +27,11 @@ urlpatterns = [
     path('ranking/', test_page_for_templates, name='semantic_testing'),
 
     # events
-    path('events_running/', events_running, name='events_running'),
+    path('', events_running, name='events_running'),
     path('event_details/', event_details, name='event_details'),
     path('event_details/<int:event>/', event_details_spec, name='event_details_spec'),
 
-    path('', login_view, name='login'),
+    path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
 
     path('api/', api.urls),
