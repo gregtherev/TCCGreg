@@ -1,4 +1,3 @@
-from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
@@ -8,10 +7,12 @@ from applications.events.models import Event
 def events_running(request):
     """Just events that are running"""
     # right_now = timezone.now()
+    if not request.user.is_anonymous and not request.user.is_superuser:
+        return redirect('event_details')
     event_list = []
     events = Event.objects.all()
     for event in events:
-        if event.is_active():
+        if event.is_active:
             event_list.append(event)
 
     return render(request, 'events/events_running.html', {'events': events})

@@ -5,17 +5,22 @@
         data() {
             return {
                 event_id: '{{ request.user.team.event.id }}',
+                is_admin: '{{ request.user.is_superuser }}',
                 teams: [],
                 total_questions: ""
             } 
         },
         mounted() {
+            let endpoint = 'leaderboard-teams/'
+            if (this.is_admin == 'True') {
+                endpoint = 'final_leaderboard/';
+            }
             if (!(this.event_id)) {
                 this.event_id = '{{ request.path_info }}'.toString()
                 this.event_id = (this.event_id.split('/').slice(2,3)).toString()
-                console.log(this.event_id)
+                
             }
-            axios.get('http://localhost:8000/api/accounts/leaderboard-teams/'+this.event_id)
+            axios.get('http://localhost:8000/api/accounts/'+endpoint+this.event_id)
                 .then(response => {
                     // Parse the response data to extract the questions
                     this.teams = response.data.teams

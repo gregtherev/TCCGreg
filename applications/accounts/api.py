@@ -19,6 +19,8 @@ def hello(request):
 @router.get("/leaderboard-teams/{event_id}")
 def leaderboard_teams(request, event_id: int):
     event = Event.objects.get(id=event_id)
+    if not event.is_active and event.is_finished:
+        return event.final_results
 
     return event.partial_results
 
