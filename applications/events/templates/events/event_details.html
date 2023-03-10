@@ -12,9 +12,6 @@
                 <div class="ui ten wide column segment">
                     <leftheader></leftheader>
                     <div class="ui four item small borderless menu header_menu">
-                        {% if not request.user.team.event.is_active and request.user.team.event.is_finished %}
-                            <a  class="item">Placar Final</a>
-                        {% endif %}
                         {% if request.user.is_superuser %}
                             <a href="{% url 'admin:index' %}" class="item">Administração</a>
                             <a class="item" @click="showModal('all_submissions_sent_modal')">Histórico Geral</a>
