@@ -25,7 +25,7 @@ def leaderboard_teams(request, event_id: int):
     return event.partial_results
 
 
-@router.get("/final_leaderboard/{event_id}")
+@router.get("/final-leaderboard/{event_id}")
 def final_leaderboard(request, event_id: int):
     event = Event.objects.get(id=event_id)
 

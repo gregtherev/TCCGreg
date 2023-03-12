@@ -9,11 +9,7 @@ def events_running(request):
     # right_now = timezone.now()
     if not request.user.is_anonymous and not request.user.is_superuser:
         return redirect('event_details')
-    event_list = []
-    events = Event.objects.all()
-    for event in events:
-        if event.is_active:
-            event_list.append(event)
+    events = Event.objects.all().order_by("-is_active")
 
     return render(request, 'events/events_running.html', {'events': events})
 
