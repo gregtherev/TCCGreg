@@ -14,7 +14,9 @@
                 <h1 class="ui grey dividing header">
                     <form action="{% url 'login' %}">
                         Eventos em andamento
-                        <input type="submit" class="ui right floated blue button" value="Login" />
+                        {% if request.user.is_anonymous %}
+                            <input type="submit" class="ui right floated blue button" value="Login" />
+                        {% endif %}
                     </form>
                 </h1>
                 {% if events %}
