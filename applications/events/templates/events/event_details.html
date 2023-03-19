@@ -23,7 +23,7 @@
                                 <a class="item" @click="showModal('submission_modal')">Submeter</a>
                             {% endif %}
                             <a class="item" @click="showModal('submissions_sent_modal')">Histórico</a>
-                            <a class="item">Questões</a>
+                            <a class="item" @click="showQuestions()">Questões</a>
                             <a href="{% url 'logout' %}" class="item">Logout</a>
                         {% endif %}
                     </div>
@@ -56,7 +56,10 @@
     {% include "leaderboard/components/all_submissions_sent_modal.html" %}
 
     <script>
-
+        $('#pdf-button').click(function() {
+            console.log('tchau')
+            window.open('{{ request.user.team.event.questions_pdf.url }}', '_blank');
+        });
         new Vue({
             el: '#leaderboard',
             delimiters: ['[[', ']]'],
@@ -71,6 +74,10 @@
                     .modal('setting', 'transition', 'fade')
                     .modal('show');
                 },
+
+                showQuestions() {
+                    window.open('{{ request.user.team.event.questions_pdf.url }}', '_blank');     
+                }
             }
         })
     </script>
