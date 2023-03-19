@@ -20,7 +20,7 @@ def event_details(request):
     return render(request, 'events/event_details.html')
 
 
-def event_details_spec(request, event: id):
+def event_details_spec(request, event: int):
     """Details of specific event for spectators"""
     if not request.user.is_anonymous and not request.user.is_superuser:
         return redirect('event_details')

@@ -10,7 +10,7 @@ from .forms import JudgeCreationForm, TeamCreationForm
 class TeamForm(TeamCreationForm):
     class Meta:
         model = Team
-        fields = ["username", "name", "students", "event"]
+        fields = ["username", "name", "students", "event", "team_image"]
 
     students = forms.ModelMultipleChoiceField(
         label='Alunos',

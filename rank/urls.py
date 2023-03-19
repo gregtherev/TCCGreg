@@ -7,6 +7,8 @@ from random import choice
 
 from django.urls import path
 from django.contrib import admin
+from django.conf.urls.static import static
+from django.conf import settings
 
 from rank.api import api
 from rank.base_views import test_page_for_templates
@@ -35,4 +37,7 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
 
     path('api/', api.urls),
+    
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
