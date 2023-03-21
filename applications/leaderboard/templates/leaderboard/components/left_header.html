@@ -4,13 +4,20 @@
     Vue.component('leftheader', {
     data() {
         return {
+            event_id: '{{ request.user.team.event.id }}',
             event_name: '',
             event_institution: '',
-            logo: null
+            team_logo: '',
+            team_name: '{{ request.user.team.name }}'
         }
     },
     mounted() {
-    axios.get('http://localhost:8000/api/events/2')
+    if (!(this.event_id)) {
+            this.event_id = '{{ request.path_info }}'.toString()
+            this.event_id = (this.event_id.split('/').slice(2,3)).toString()
+            console.log(this.event_id)
+    }
+    axios.get('http://localhost:8000/api/events/' + this.event_id)
         .then(response => {
             // Parse the response data to extract the questions
             this.event_name = response.data.event_name
@@ -27,19 +34,21 @@
         <div class="row">
             <div class="ten wide column">
                 <h1 class="ui grey header">
-                    [[ event_name ]]
-                    <br>
-                    <small>
-                        [[ event_institution ]]
-                    </small>
+                    [[ event_name ]] - [[ event_institution ]]
+                    <br><br>
+                    [[ team_name ]]
                 </h1>
             </div>
 
             <div class="six wide column">
                 <div class="ui right aligned basic segment">
                     <img class="ui small right floated image"
-                        :src="logo ? logo : '{% static 'images/uniararas.png' %}'">
-                </div>
+                        v-if="team_logo"
+                        :src="team_logo">
+                    <img class="ui small right floated image"
+                        v-else
+                        src="{% static 'images/uniararas.png' %}">
+                </div>  
             </div>
         </div>
     </div>

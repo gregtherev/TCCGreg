@@ -9,7 +9,7 @@ from ..accounts.models import Judge
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = "__all__"
+        exclude = ('partial_results', 'final_results', )
 
     judges = forms.ModelMultipleChoiceField(
         label='Juízes',

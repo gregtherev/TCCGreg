@@ -1,8 +1,8 @@
 """This module contains the API for the events application."""
 from ninja import Router
-from datetime import timedelta, datetime, date
 
-from ..events.models import Event, Question
+from ..events.models import Event, Question, Submission
+from utils.utils import calculate_remaining_time
 
 router = Router()
 
@@ -28,14 +28,48 @@ def event_info(request, event_id: int):
 @router.get("/event_duration/{event_id}")
 def event_duration(request, event_id: int):
     event = Event.objects.get(pk=event_id)
-    remaining_time = (event.start_time + timedelta(hours=event.duration))
-    remaining_time = remaining_time.replace(tzinfo=None)
-    now = datetime.utcnow()
-    remaining_seconds = (remaining_time-now).total_seconds()
-
+    remaining_seconds = calculate_remaining_time(event)
     event_dict = {
         "date": event.date.strftime("%d/%m/%Y"),
         "remaining_seconds": int(remaining_seconds)
     }
 
     return event_dict
+
+
+@router.get("/submissions/{event_id}")
+def all_team_submissions(request, event_id: int):
+    if not request.user.is_superuser:
+        return
+
+    submissions = []
+    query = Submission.objects.filter(event_id=event_id)
+
+    for item in query:
+        submission = {
+            "team": item.team.name,
+            "question": item.question.id,
+            "answer": item.answer,
+            "status": item.status,
+            "sent_on": item.time
+        }
+        submissions.append(submission)
+
+    return submissions
+
+
+@router.get("/submissions/{event_id}/{team_id}")
+def team_submissions(request, event_id: int, team_id: int):
+    submissions = []
+    query = Submission.objects.filter(event_id=event_id, team_id=team_id)
+
+    for item in query:
+        submission = {
+            "question": item.question.id,
+            "answer": item.answer,
+            "status": item.status,
+            "sent_on": item.time,
+        }
+        submissions.append(submission)
+
+    return submissions

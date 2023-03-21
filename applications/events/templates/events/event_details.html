@@ -12,12 +12,29 @@
                 <div class="ui ten wide column segment">
                     <leftheader></leftheader>
                     <div class="ui four item small borderless menu header_menu">
+<<<<<<< HEAD
                         <a href="{% url 'admin:index' %}" class="item">
                             Administração</a>
                         <a class="item">Placar</a>
                         {% comment %} <a class="item">Dashboard</a> {% endcomment %}
                         <a class="item" @click="showModal">Submissão</a>
                         <a href="{% url 'logout' %}" class="item">Logout</a>
+=======
+                        {% if request.user.is_superuser %}
+                            <a href="{% url 'admin:index' %}" class="item">Administração</a>
+                            <a class="item" @click="showModal('all_submissions_sent_modal')">Histórico Geral</a>
+                            <a href="{% url 'logout' %}" class="item">Logout</a>
+                        {% elif request.user.is_anonymous == True %}
+                            <a href="{% url 'events_running' %}" class="item">Outros eventos</a>
+                        {% else %}
+                            {% if not request.user.team.event.is_finished and request.user.team.event.is_active %}
+                                <a class="item" @click="showModal('submission_modal')">Submeter</a>
+                            {% endif %}
+                            <a class="item" @click="showModal('submissions_sent_modal')">Histórico</a>
+                            <a class="item" @click="showQuestions()">Questões</a>
+                            <a href="{% url 'logout' %}" class="item">Logout</a>
+                        {% endif %}
+>>>>>>> fd7ee49365d74f2da065016ce2b6323dd1ded53b
                     </div>
                 </div>
 
@@ -34,6 +51,11 @@
 
             <!-- modal declaration-->
             <submission_modal></submission_modal>
+<<<<<<< HEAD
+=======
+            <submissions_sent_modal></submissions_sent_modal>
+            <all_submissions_sent_modal></all_submissions_sent_modal>
+>>>>>>> fd7ee49365d74f2da065016ce2b6323dd1ded53b
         </div>
     </div>
 
@@ -41,22 +63,46 @@
     {% include "leaderboard/components/left_header.html" %}
     {% include "leaderboard/components/right_header.html" %}
     {% include "leaderboard/components/teams_position.html" %}
+<<<<<<< HEAD
     {% include "leaderboard/components/submission_modal.html" %}
+=======
+    {% comment %} {% include "leaderboard/components/submission_modal.html" %} {% endcomment %}
+    {% include "leaderboard/components/submissions_sent_modal.html" %}
+    {% include "leaderboard/components/all_submissions_sent_modal.html" %}
+>>>>>>> fd7ee49365d74f2da065016ce2b6323dd1ded53b
 
     <script>
+        $('#pdf-button').click(function() {
+            console.log('tchau')
+            window.open('{{ request.user.team.event.questions_pdf.url }}', '_blank');
+        });
         new Vue({
             el: '#leaderboard',
             delimiters: ['[[', ']]'],
             data () { return {} },
             methods: {
+<<<<<<< HEAD
                 showModal() {
                     // show the modal
                     $('#submission_modal')
+=======
+                showModal(modalName) {
+                    // show the modal
+                    $('#'+modalName)
+>>>>>>> fd7ee49365d74f2da065016ce2b6323dd1ded53b
                     .modal({
                         inverted: true
                     })
                     .modal('setting', 'transition', 'fade')
+<<<<<<< HEAD
                     .modal('show')
+=======
+                    .modal('show');
+                },
+
+                showQuestions() {
+                    window.open('{{ request.user.team.event.questions_pdf.url }}', '_blank');     
+>>>>>>> fd7ee49365d74f2da065016ce2b6323dd1ded53b
                 }
             }
         })

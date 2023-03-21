@@ -1,0 +1,51 @@
+{% include "./team_info.html" %}
+
+<script>
+    Vue.component('submissions_sent_modal', {
+        data() {
+            return {
+                event_id: '{{ request.user.team.event.id }}',
+                team_id: '{{ request.user.team.id }}',
+                team_submissions: ''
+            } 
+        },
+        delimiters: ['[[', ']]'],
+        mounted() {
+        axios.get('http://localhost:8000/api/events/submissions/'+this.event_id+'/'+this.team_id)
+            .then(response => {
+                // Parse the response data to extract the questions
+                this.team_submissions = response.data
+            })
+            .catch(error => {
+                console.log(error)
+        })
+        },
+        methods: {},
+        template: `
+        <div class="ui large modal blurring dimmable" id="submissions_sent_modal">
+            <i class="black close icon"></i>
+            <table class="ui celled striped table">
+                <thead>
+                    <tr>
+                        <th>Questão</th>
+                        <th>Resposta</th>
+                        <th>Status</th>
+                        <th>Tempo</th>
+                    </tr>
+                </thead>
+                <tbody v-for="item in team_submissions" :key="item">
+                    <tr>
+                        <td data-label="Question">[[ item.question ]]</td>
+                        <td data-label="Answer">[[ item.answer ]]</td>
+                        <td data-label="Status" class="center aligned">
+                            <i v-if="item.status == 1" class="large green check circle icon"></i>
+                            <i v-else class="large red times circle icon"></i>
+                        </td>
+                        <td data-label="Sent on">[[ item.sent_on ]]</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        `
+    })
+</script>
