@@ -10,10 +10,10 @@ def list_leaderboard(event: Event):
     teams_dict = {}
     teams_list = []
     for team in teams:
-        team.formated_time = team.relative_time/60
+        team.formated_time = team.relative_time
 
         if team.penalties > 0:
-            team.formated_time = team.formated_time + ((team.penalties) * event.punishment_value)
+            team.formated_time = team.formated_time + ((team.penalties) * (event.punishment_value * 60))
 
         team_info = TeamSchema(**team.__dict__)
         teams_list.append(team_info.__dict__)

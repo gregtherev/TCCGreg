@@ -1,0 +1,62 @@
+{% include "./team_info.html" %}
+
+<script>
+    Vue.component('submission_modal', {
+        data() {
+            return {
+                teams: [],
+                total_questions: "",
+                event_id: "{{ request.user.team.event.id }}",
+                team_id: "{{ request.user.team.id }}"
+
+            } 
+        },
+        delimiters: ['[[', ']]'],
+        methods: {
+            submitForm() {
+                const questionNumber = this.$el.querySelector('input[name="question-number"]').value;
+                const answerChoice = this.$el.querySelector('input[name="answer-choice"]').value;
+                const formData = {
+                    team_id: Number(this.team_id),
+                    answer: answerChoice
+                }
+
+                axios.post('http://localhost:8000/api/accounts/submit-answer/'+this.event_id +'/'+questionNumber, formData)
+                .then(response => {
+                    console.log('Form submitted successfully');
+            })
+                .catch(error => {
+                    console.error(error);
+                });
+            }
+        },
+        template: `
+        <div class="ui tiny modal blurring dimmable" id="submission_modal">
+            <i class="close icon"></i>
+            <div class="header">
+                Submeta uma resposta
+            </div>
+            <div class="content">
+                <div class="ui form">
+                    <div class="field">
+                        <label>Question number</label>
+                        <input type="text" name="question-number" placeholder="Question number">
+                    </div>
+                    <div class="field">
+                        <label>Answer choice</label>
+                        <input type="text" name="answer-choice" placeholder="Answer choice">
+                    </div>
+                </div>
+            </div>
+            <div class="actions">
+                <div class="ui negative button">
+                    Cancel
+                </div>
+                <div class="ui positive button" @click="submitForm">
+                    Send
+                </div>
+            </div>
+        </div>
+        `
+    })
+</script>

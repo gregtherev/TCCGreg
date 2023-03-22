@@ -19,6 +19,10 @@ def hello(request):
 @router.get("/leaderboard-teams/{event_id}")
 def leaderboard_teams(request, event_id: int):
     event = Event.objects.get(id=event_id)
+    if not event.partial_results or not event.final_results:
+        event.partial_results = list_leaderboard(event)
+        event.final_results = list_leaderboard(event)
+
     if not event.is_active and event.is_finished:
         return event.final_results
 
@@ -28,6 +32,8 @@ def leaderboard_teams(request, event_id: int):
 @router.get("/final-leaderboard/{event_id}")
 def final_leaderboard(request, event_id: int):
     event = Event.objects.get(id=event_id)
+    if not event.final_results:
+        event.final_results = list_leaderboard(event)
 
     return event.final_results
 
@@ -39,6 +45,8 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
     question = Question.objects.get(event__id=event_id,
                                     qt_number=question_number)
     event = Event.objects.get(pk=event_id)
+    if calculate_remaining_time(event) < 0:
+        return {"status": "ERROR", "reason": "Events already finished"}
     wr_qts = team.wr_questions.split(",")
     rc_qts = team.rc_questions.split(",")
     rt_qts = team.rt_questions.split(",")

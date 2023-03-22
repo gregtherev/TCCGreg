@@ -65,7 +65,7 @@ class Event(models.Model):
 
 class Question(models.Model):
     qt_number = models.PositiveIntegerField("Número da questão", null=False)
-    question = models.TextField('Texto da questão (opcional)', null=True)
+    question = models.TextField('Texto da questão (opcional)', null=True, blank=True)
     # TODO criar campo de submissão do arquivo da questão
     # image = models.ImageField('Upload de imagem', upload_to=None, height_field=None, width_field=None, max_length=None) ## NOQA
     correct_ansnwer = models.CharField("Alternativa correta ('X' caso seja validação de juíz)",  # NOQA
