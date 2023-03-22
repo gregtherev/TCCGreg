@@ -19,9 +19,9 @@ def hello(request):
 @router.get("/leaderboard-teams/{event_id}")
 def leaderboard_teams(request, event_id: int):
     event = Event.objects.get(id=event_id)
-    if not event.partial_results and not event.final_results:
+    if not event.partial_results or not event.final_results:
         event.partial_results = list_leaderboard(event)
-        return event.partial_results
+        event.final_results = list_leaderboard(event)
 
     if not event.is_active and event.is_finished:
         return event.final_results
@@ -32,6 +32,8 @@ def leaderboard_teams(request, event_id: int):
 @router.get("/final-leaderboard/{event_id}")
 def final_leaderboard(request, event_id: int):
     event = Event.objects.get(id=event_id)
+    if not event.final_results:
+        event.final_results = list_leaderboard(event)
 
     return event.final_results
 
