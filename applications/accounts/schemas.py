@@ -13,4 +13,3 @@ class TeamSchema(ModelSchema):
 class AnswerSchema(Schema):
     team_id: int
     answer: str
-    time: int

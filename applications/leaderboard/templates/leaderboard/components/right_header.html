@@ -7,6 +7,7 @@
             event_id: '{{ request.user.team.event.id }}',
             event_date: '',
             time: '',
+            started: '',
             event_remaining_time: null,
             interval: null
         }
@@ -49,6 +50,7 @@
                 // Parse the response data to extract the questions
                 this.event_date = response.data.date
                 this.time = response.data.remaining_seconds
+                this.started = response.data.started
             })
             .catch(error => {
                 console.log(error)
@@ -66,7 +68,8 @@
                 </div>
 
                 <div class="column">
-                    <h1 v-if="time > 0" class="ui grey header">[[ String(hours).padStart(2, '0') ]]:[[ String(minutes).padStart(2, '0') ]]:[[ String(seconds).padStart(2, '0') ]]</h1>
+                    <h1 v-if="started == false" class="ui grey header">Evento não iniciado</h1>
+                    <h1 v-else-if="time > 0" class="ui grey header">[[ String(hours).padStart(2, '0') ]]:[[ String(minutes).padStart(2, '0') ]]:[[ String(seconds).padStart(2, '0') ]]</h1>
                     <h1 v-else class="ui grey header">Evento encerrado</h1>
                 </div>
             </div>
