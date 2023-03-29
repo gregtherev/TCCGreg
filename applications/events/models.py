@@ -51,9 +51,7 @@ class Event(models.Model):
         return self.date == datetime.now().date()
 
     def finish_time(self):
-        finish_time = datetime.now()
-        finish_time = finish_time.replace(hour=self.start_time.hour,
-                                          minute=self.start_time.minute)
+        finish_time = self.start_time
         finish_time = finish_time + timedelta(hours=self.duration)
         return finish_time
 
