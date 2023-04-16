@@ -16,7 +16,7 @@ def list_leaderboard(event: Event):
 
         team.save()
 
-        team_info = TeamSchema(**team.__dict__)
+        team_info = TeamSchema(**team.__dict__, students_names=team.students_name)
         teams_list.append(team_info.__dict__)
 
     teams_dict['teams'] = teams_list

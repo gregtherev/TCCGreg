@@ -15,13 +15,12 @@
         methods: {},
         template: `
         <tr>
-            <td class="collapsing">[[ team.name ]]</td>
+            <td class="collapsing" :title="team.students_names">[[ team.name ]]</td>
             <td>
                 <div class="ui small icon fluid buttons">
                     <div class="ui small icon fluid buttons" v-for="item in total_questions" :key="item">
-                        <div v-if="team.wr_questions.includes(item)" class="ui red button">[[ item ]]</div>
-                        <div v-else-if="team.rc_questions.includes(item)" class="ui orange button">[[ item ]]</div>
-                        <div v-else-if="team.rt_questions.includes(item)" class="ui green button">[[ item ]]</div>
+                        <div v-if="team.rt_questions.includes(item)" class="ui green button">[[ item ]]</div>
+                        <div v-else-if="team.rc_questions.includes(item)" class="ui green button">[[ item ]]</div>
                         <div class="ui button" v-else>[[ item ]]</div>
                     </div>
                  </div>

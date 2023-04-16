@@ -3,6 +3,8 @@ from ninja import ModelSchema, Schema
 
 
 class TeamSchema(ModelSchema):
+    students_names: str = ''
+
     class Config:
         model = Team
         model_fields = ['name', 'solved_questions', 'relative_time',
