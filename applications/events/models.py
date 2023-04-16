@@ -26,7 +26,7 @@ class Event(models.Model):
     name = models.CharField("Nome do evento", max_length=255)
     date = models.DateField("Data do evento")
     start_time = models.DateTimeField("Hora de início", blank=True, null=True)
-    duration = models.PositiveIntegerField("Duraçao do evento em horas",
+    duration = models.PositiveIntegerField("Duraçao do evento em minutos",
                                            null=True,
                                            default=1)
     type = models.IntegerField(
@@ -52,7 +52,7 @@ class Event(models.Model):
 
     def finish_time(self):
         finish_time = self.start_time
-        finish_time = finish_time + timedelta(hours=self.duration)
+        finish_time = finish_time + timedelta(minutes=self.duration)
         return finish_time
 
     class Meta:
