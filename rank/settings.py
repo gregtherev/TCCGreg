@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     # third part apps
     # local apps
     'applications.events',
@@ -127,3 +128,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Login
 LOGIN_URL = 'login'
+
+
+GRAPH_MODELS = {
+  'all_applications': False,
+  'group_models': True,
+  'models': ['Event']
+}
