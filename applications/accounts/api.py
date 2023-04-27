@@ -3,7 +3,7 @@ from datetime import datetime
 from ninja import Router
 
 from .application import list_leaderboard
-from ..events.models import Question, Event, Submission
+from ..events.models import Event, Submission
 from .models import Team
 from .schemas import AnswerSchema  # NoQA
 from utils.utils import calculate_remaining_time
@@ -42,8 +42,7 @@ def final_leaderboard(request, event_id: int):
 def submit_answer(request, answer_info: AnswerSchema, event_id: int,
                   question_number: int):
     team = Team.objects.get(pk=answer_info.team_id)
-    question = Question.objects.get(event__id=event_id,
-                                    qt_number=question_number)
+    question = str(int(question_number))
     event = Event.objects.get(pk=event_id)
     if calculate_remaining_time(event) < 0:
         return {"status": "ERROR", "reason": "Events already finished"}
@@ -67,7 +66,7 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
                         team=team
                         )
 
-    if answer_info.answer.lower() != question.correct_ansnwer.lower():
+    if answer_info.answer.lower() != event.questions[question].lower():
         qt_set = wr_qts
         wr_set = set_add(qt_set, question_number)
 
@@ -79,8 +78,8 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
 
         message = {"status": "SUCCESS", "question_status": "wrong"}
 
-    elif answer_info.answer.lower() == question.correct_ansnwer.lower():
-        start_time = question.event.start_time.replace(tzinfo=None)
+    elif answer_info.answer.lower() == event.questions[question].lower():
+        start_time = event.start_time.replace(tzinfo=None)
         diff = now - start_time
         team.solved_questions += 1
         team.relative_time += (diff).total_seconds()
