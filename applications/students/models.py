@@ -7,7 +7,7 @@ class Student(models.Model):
     joined_year = models.DateField("Ano de ingresso")
 
     def __str__(self):
-        return self.name
+        return f"{self.name} - {self.course} - {self.joined_year.year}"
 
     class Meta:
         verbose_name = 'Aluno'

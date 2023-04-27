@@ -36,6 +36,7 @@
                         <th>Resposta</th>
                         <th>Status</th>
                         <th>Tempo</th>
+                        <th>Rejulgar</th>
                     </tr>
                 </thead>
                 <tbody v-for="item in team_submissions" :key="item">
@@ -48,6 +49,7 @@
                             <i v-else class="large red times circle icon"></i>
                         </td>
                         <td data-label="Sent on">[[ item.sent_on ]]</td>
+                        <td><button class="ui blue button">Rejulgar</button></td>
                     </tr>
                 </tbody>
             </table>

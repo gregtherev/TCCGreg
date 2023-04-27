@@ -15,7 +15,7 @@ class TeamForm(TeamCreationForm):
     students = forms.ModelMultipleChoiceField(
         label='Alunos',
         queryset=Student.objects.all(),
-        required=False,
+        required=True,
         widget=FilteredSelectMultiple(('Alunos'), True))
 
 

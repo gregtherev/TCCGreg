@@ -2,7 +2,7 @@
 from ninja import Router
 from datetime import datetime
 
-from ..events.models import Event, Question, Submission
+from ..events.models import Event, Submission
 from utils.utils import calculate_remaining_time
 
 router = Router()
@@ -16,11 +16,10 @@ def hello(request):
 @router.get("/{event_id}")
 def event_info(request, event_id: int):
     event = Event.objects.get(pk=event_id)
-    total_questions = Question.objects.filter(event__id=event.id).count()
     event_dict = {
         "event_name": event.name,
         "event_institution": event.institution.name,
-        "event_total_questions": total_questions
+        "event_total_questions": event.total_questions
     }
 
     return event_dict
@@ -48,12 +47,12 @@ def all_team_submissions(request, event_id: int):
         return
 
     submissions = []
-    query = Submission.objects.filter(event_id=event_id)
+    query = Submission.objects.filter(event_id=event_id).order_by("time")
 
     for item in query:
         submission = {
             "team": item.team.name,
-            "question": item.question.qt_number,
+            "question": item.question,
             "answer": item.answer,
             "status": item.status,
             "sent_on": item.time
@@ -70,7 +69,7 @@ def team_submissions(request, event_id: int, team_id: int):
 
     for item in query:
         submission = {
-            "question": item.question.qt_number,
+            "question": item.question,
             "answer": item.answer,
             "status": item.status,
             "sent_on": item.time,
