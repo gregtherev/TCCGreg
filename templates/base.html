@@ -22,15 +22,8 @@
     </head>
     <body>
         <div class="ui grid">
-            <!-- mobile content -->
-            <div class="mobile tablet only row">
-                <div class="column">
-                    {% block mobile %}{% endblock mobile %}
-                </div>
-            </div>
-
             <!-- desktop content -->
-            <div class="computer only row">
+            <div class="row">
                 <div class="column" id="desktop_main">
                     {% block desktop %}{% endblock desktop %}
                 </div>
