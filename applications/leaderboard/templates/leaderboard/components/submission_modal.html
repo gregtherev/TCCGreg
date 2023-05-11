@@ -20,11 +20,21 @@
                     team_id: Number(this.team_id),
                     answer: answerChoice
                 }
-
+                axios.get('http://localhost:8000/api/events/right-submissions/'+this.event_id+'/'+this.team_id)
+                .then(response => {
+                    // Parse the response data to extract the questions
+                    team_submissions = response.data;
+                    if (team_submissions.includes(String(questionNumber))) {
+                        alert('Questão já foi respondida!');
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                });             
                 axios.post('http://localhost:8000/api/accounts/submit-answer/'+this.event_id +'/'+questionNumber, formData)
                 .then(response => {
                     console.log('Form submitted successfully');
-            })
+                })
                 .catch(error => {
                     console.error(error);
                 });

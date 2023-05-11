@@ -9,18 +9,25 @@
                 team_submissions: ''
             } 
         },
-        delimiters: ['[[', ']]'],
         mounted() {
-        axios.get('http://localhost:8000/api/events/submissions/'+this.event_id+'/'+this.team_id)
-            .then(response => {
-                // Parse the response data to extract the questions
-                this.team_submissions = response.data
-            })
-            .catch(error => {
-                console.log(error)
-        })
+            this.loadData();
+            setInterval(() => {
+                this.loadData();
+            }, 2000);
         },
-        methods: {},
+        delimiters: ['[[', ']]'],
+        methods: {
+            loadData() {
+                axios.get('http://localhost:8000/api/events/submissions/'+this.event_id+'/'+this.team_id)
+                    .then(response => {
+                        // Parse the response data to extract the questions
+                        this.team_submissions = response.data
+                    })
+                    .catch(error => {
+                        console.log(error)
+                })
+            }
+        },
         template: `
         <div class="ui large modal blurring dimmable" id="submissions_sent_modal">
             <i class="black close icon"></i>

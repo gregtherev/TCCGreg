@@ -8,23 +8,30 @@
                 team_submissions: ''
             } 
         },
-        delimiters: ['[[', ']]'],
         mounted() {
-        if (!(this.event_id)) {
-            this.event_id = '{{ request.path_info }}'.toString()
-            this.event_id = (this.event_id.split('/').slice(2,3)).toString()
-            console.log(this.event_id)
-        }
-        axios.get('http://localhost:8000/api/events/submissions/'+this.event_id)
-            .then(response => {
-                // Parse the response data to extract the questions
-                this.team_submissions = response.data
-            })
-            .catch(error => {
-                console.log(error)
-        })
+            this.loadData();
+            setInterval(() => {
+                this.loadData();
+            }, 2000);
         },
-        methods: {},
+        delimiters: ['[[', ']]'],
+        methods: {
+            loadData() {
+                if (!(this.event_id)) {
+                    this.event_id = '{{ request.path_info }}'.toString()
+                    this.event_id = (this.event_id.split('/').slice(2,3)).toString()
+                    console.log(this.event_id)
+                }
+                axios.get('http://localhost:8000/api/events/submissions/'+this.event_id)
+                    .then(response => {
+                        // Parse the response data to extract the questions
+                        this.team_submissions = response.data
+                    })
+                    .catch(error => {
+                        console.log(error)
+                })
+            }
+        },
         template: `
         <div class="ui large modal blurring dimmable" id="all_submissions_sent_modal">
             <i class="black close icon"></i>
@@ -36,7 +43,6 @@
                         <th>Resposta</th>
                         <th>Status</th>
                         <th>Tempo</th>
-                        <th>Rejulgar</th>
                     </tr>
                 </thead>
                 <tbody v-for="item in team_submissions" :key="item">
@@ -49,7 +55,6 @@
                             <i v-else class="large red times circle icon"></i>
                         </td>
                         <td data-label="Sent on">[[ item.sent_on ]]</td>
-                        <td><button class="ui blue button">Rejulgar</button></td>
                     </tr>
                 </tbody>
             </table>

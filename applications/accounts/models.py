@@ -1,11 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from ..students.models import Student
-from PIL import Image
 
 
 class Team(User):
-    name = models.CharField('Nome da equipe', max_length=255)
+    name = models.CharField('Nome da equipe', max_length=30)
     solved_questions = models.IntegerField("Questões resolvidas",
                                            default=0,
                                            blank=True)
