@@ -2,6 +2,7 @@ import magic
 from datetime import datetime, timedelta
 
 from django.db import models
+from django.core.exceptions import ValidationError
 from ..accounts.models import Team, Judge
 
 EVENT_TYPES = (
@@ -48,6 +49,10 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+
+    def clean(self):
+        if self.start_time.date() < self.date:
+            raise ValidationError('Verifique as datas inseridas')
 
     def is_running_today(self):
         return self.date == datetime.now().date()
