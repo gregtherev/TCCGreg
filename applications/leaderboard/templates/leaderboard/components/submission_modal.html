@@ -27,6 +27,12 @@
                     if (team_submissions.includes(String(questionNumber))) {
                         alert('Questão já foi respondida!');
                     }
+                    if (isNaN(questionNumber)) {
+                        alert('Insira um número válido na questão!');
+                    }
+                    if (formData.answer.length > 1){
+                        alert('A alternativa deve conter apenas 1 carácter!');
+                    }
                 })
                 .catch(error => {
                     console.log(error)
@@ -49,11 +55,11 @@
             <div class="content">
                 <div class="ui form">
                     <div class="field">
-                        <label>Question number</label>
+                        <label>Número da Questão</label>
                         <input type="text" name="question-number" placeholder="Question number">
                     </div>
                     <div class="field">
-                        <label>Answer choice</label>
+                        <label>Resposta</label>
                         <input type="text" name="answer-choice" placeholder="Answer choice">
                     </div>
                 </div>
