@@ -7,5 +7,6 @@ django-extensions==3.2.1
 django-ninja==0.19.1
 ipython==8.8.0
 pydantic==1.10.2
+python-magic-bin==0.4.14
 sqlparse==0.4.2
 typing_extensions==4.4.0
