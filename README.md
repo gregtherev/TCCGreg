@@ -1,94 +1,90 @@
-"# First Commit" 
+# READ.me
+#### Esse projeto faz parte do trabalho de conclusão de curso dos alunos: _Andrey Felicio_ e _Guilherme Gregório_ para o curso de Sistemas de Informação - Fundação Hermínio Ometto.
+##### O trabalho escrito pode ser acessado [aqui]().
 
-## TABELA EQUIPE
-## OS CAMPOS SÃO STRING NO BANCO, MAS SERÃO TRABALHADOS COMO UM SET() PARA MANIPULAÇÃO    
-	questoes_acertadas[]: acertou uma questao, set.add(numero_questao)
-	questoes_erradas[]:  errou uma quiestao, set.add(numero_questao)
-	questoes_recuperadas[]: questoes com punicao, mas, acertadas posteriormente
+## Instalação
 
-	EM TODO ENVIO COM ACERTO
-	if questao in questoes_erradas:
-		questoes_erradas.remove(questao)
-		questoes_recuperadas.add(questao)
-		return
+Esse projeto Python roda em [Django](https://www.djangoproject.com/) v4.1.
 
-	if not questao in questoes_acertadas:
-		questoes_acertadas.add(questao)
-	return
-	
+#### Para instalar o projeto localmente é necessário seguir os passos:
 
-	ENVIO DE ERRRO
-	if not questao in questoes_erradas:
-		questoes_erradas.add(questao)
+##### Clonar o projeto utilizando o comando:
 
+```sh
+git clone https://github.com/gregtherev/TCCGreg.git
+```
 
+##### Recomendamos usar um virtualenv para instalar as dependências, isso pode ser feito da seguinte maneira:
 
-## CORPO DO RETORNO DO ENDPOINT DO PLACAR:
-	{
-		[
-			{
-                equipe: equipegreg,
-                acertos: 10,
-                tempo relativo: 3600s,
-                punicoes: 3,
-                tempo formatado: 5400s,
-                q_acertadas: [1, 3, 4, 5, 6, 9, 10],
-                q_erradas: [8],
-                q_recupearadas: [2, 7]
-			},
+```sh
+cd TCCGreg
+python -m venv venv
+```
 
-			{
-                equipe: equipeandrey,
-                acertos: 10,
-                tempo relativo: 3000s,
-                punicoes: 2,
-                tempo formatado: 4200s,
-                q_acertadas: [],
-                q_erradas: [],
-                q_recupearadas: []
-			}
-		]
-	}
-
-## Componente header
-
-{{{
-Nome do evento e nome da instituição
-Para logo: quando for tela de time (logo do time)
-tela pública (logo da instituição)
-
-Compôr menu (horizontal, fixed, top):
-	admin
-	placar pública
-	logout
-	dashboard
-	(OBS: mudar cor do menu no hover)
-
-}}}
+##### Ativando o virtual env no _Windows_
+```sh
+cd .\venv\Scripts\
+.\activate
+```
+_Linux_
+```sh
+source venv/bin/activate
+```
 
 
-## Component timer
+##### Instalando as dependências necessárias:
+```sh
+pip install -r requirements.txt
+```
 
-{{{
-Data e hora de início do evento (lado esquerdo)
-Tempo decorrido e tempo restante (lado direito)
-Quando faltarem 5 minutos para finalizar, congelar o placar.
-}}}
+##### Banco de dados
+
+O projeto foi desenvolvido utilizando sqlite, para configurar o mesmo em sua máquina basta criar uma pasta "data" na raíz do projeto e executar o comando:
+```sh
+python manage.py migrate
+```
+
+##### Criando um superuser padrão
+
+Para criar uma conta de admin em seu projeto basta executar o comando a seguir e inserir as informações solicitadas (email pode ser ignorado)
+```sh
+python .\manage.py createsuperuser
+```
+
+##### Executando o projeto
+
+Para iniciar, por padrão no endereço _localhost:8000_, execute o comando:
+```sh
+python .\manage.py runserver
+```
+
+## Features
+
+- Criação dos atores necessários para um evento (Alunos, Equipes, Juízes, Instituições, Eventos)
+- Submissão de respostas dos problemas do evento
+- Visualização do placar de cada evento em tempo real
+- Histórico de submissões (individual ou geral caso a conta seja de Administrador)
+- Acessar informações de eventos já finalizados
+- Upload de arquivo pdf contendo questões para visualização dos participantes
+
+## Observação
+
+O cadastro das questões é feito através de um dicionário no ato de cadastro do evento. Este dicionário deve seguir o modelo chave[questão]: valor[alternativa correta].
+```json
+{
+    "1": "a",
+    "2": "b",
+    "3": "a",
+    "4": "c",
+    "5": "d",
+}
+```
+
+## Licença
+
+FHO
+
+__Esse projeto tem o intuito de ser passado para outros alunos da instiuição que tenham interesse em aprimorá-lo e expandi-lo para além da nossa universidade.__
 
 
-## Componente de placar
-{{{
-Lista das equipes participantes
-Lista das questões no evento
-Momento de início para cada equipe
-Punições (tempo adicional em cada questão)
-Punições (tempo total geral por equipe)
-
-## Regras para tempo:
-para cada questão resolvida, somar o tempo de resolução individual, ou seja, cada questão estará atrelada a quantidade de tempo que ela foi resolvida, somando-se todos os tempos de todas as questões ao final.
-
-no caso de erro, soma-se uma punição temporal (por cada erro) ao tempo total
-
-## Ordenação:
-
-o django deverá fornecer num primeiro momento as equipes são retornadas em ordem alfabética. a partir daí elas devel vir do django ordenadas por quantidade de questões acertadas, mas o endpoint precisa retornar tb: quantidade de questões acertadas e quantidade de punições
+_Agradecimento especial ao nosso orientador __Sérgio Antonello__ e à __Genese Lessa (o Dev mais arretado do Django)__ por todo apoio durante o desenvolvimento desse projeto._
