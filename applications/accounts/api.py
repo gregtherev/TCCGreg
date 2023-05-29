@@ -114,7 +114,7 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
 
     remaining_seconds = calculate_remaining_time(event)
     leaderboard = list_leaderboard(event)
-    if remaining_seconds > 360:
+    if remaining_seconds > 300:
         event.partial_results = leaderboard
     event.final_results = leaderboard
     event.save()

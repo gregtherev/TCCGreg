@@ -80,7 +80,16 @@ O cadastro das questões é feito através de um dicionário no ato de cadastro 
 }
 ```
 
-## Licença
+Os eventos possuem dois atributos que condicionam a renderização tanto do placar quanto dos botões disponíveis para uma equipe.
+
+__is_active__ é o atributo responsável por marcar se um evento está ativo. Caso o mesmo esteja como ___false___, o botão para submissão de respostas não será renderizado para o usuário.
+__is_finished__ é o atributo responsável por marcar a finalização de um evento. O placar do evento é congelado quando restarem apenas 5 minutos de competição, quando este atributo é marcado como ___true___ o placar final passa a ser exibido.
+
+Para que um evento ocorra normalmente é necessário que durante sua duração, os atributos __is_active__ e __is_finished__ estejam marcados como ___true___ e ___false___ respectivamente. E para um evento finalizado basta seguir o caminho contrário, marcando __is_active__ e is_finished como ___false___ e ___true___ respectivamente.
+
+Até o momento dessa publicação, essa atualização de atributos precisa ser feita pela interface do _Django Admin_.
+
+## Direitos
 
 FHO
 
