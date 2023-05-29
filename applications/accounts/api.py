@@ -107,6 +107,11 @@ def submit_answer(request, answer_info: AnswerSchema, event_id: int,
 
             message = {"status": "SUCCESS", "question_status": "right"}
 
+    team.formated_time = team.relative_time
+    if team.penalties > 0:
+        team.formated_time = team.formated_time + ((team.penalties) * (event.punishment_value * 60))
+    team.save()
+
     remaining_seconds = calculate_remaining_time(event)
     leaderboard = list_leaderboard(event)
     if remaining_seconds > 360:
