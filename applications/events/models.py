@@ -30,7 +30,9 @@ class Event(models.Model):
     duration = models.PositiveIntegerField("Duraçao do evento em minutos",
                                            null=True,
                                            default=1)
-    questions = models.JSONField("Dicionário de Questões", blank=True, null=True)
+    questions = models.JSONField("Dicionário de Questões", blank=True, null=True,
+                                 default={"1": "a", "2": "a", "3": "a",
+                                          "4": "a", "5": "a", "6": "a"})
     total_questions = models.PositiveIntegerField("Total de Questões", null=True, blank=True)
     type = models.IntegerField("Tipo de submissão", choices=EVENT_TYPES, default=0)
     punishment_value = models.IntegerField(
@@ -101,13 +103,13 @@ class Institution(models.Model):
 
 
 class Submission(models.Model):
-    question = models.CharField(max_length=3)
-    answer = models.CharField(max_length=1)
-    time = models.TimeField(auto_now_add=True)
-    status = models.PositiveIntegerField(
+    question = models.CharField("Questão", max_length=3)
+    answer = models.CharField("Resposta", max_length=1)
+    time = models.TimeField("Tempo", auto_now_add=True)
+    status = models.PositiveIntegerField( 
         "Status da subimissão", choices=SUBMISSION_STATUS)
-    event = models.ForeignKey('Event', on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    event = models.ForeignKey('Event', verbose_name="Evento", on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, verbose_name="Equipe", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Submissão'
